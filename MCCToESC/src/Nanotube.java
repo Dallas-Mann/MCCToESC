@@ -3,9 +3,7 @@ import java.util.List;
 
 public class Nanotube{
 	// constants
-
 	public static final double VANDER_WAALS_GAP = Math.pow(10, -9) * 0.34;
-
 	
 	//TODO fix groundPlaneDistance, set to vanderwaal gap for now
 	final double distanceBetweenShells = VANDER_WAALS_GAP;
