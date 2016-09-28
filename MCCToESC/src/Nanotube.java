@@ -4,21 +4,22 @@ import java.util.List;
 public class Nanotube{
 	// constants
 	public static final double VANDER_WAALS_GAP = Math.pow(10, -9) * 0.34;
-	
-	//TODO fix groundPlaneDistance, set to vanderwaal gap for now
-	final double distanceBetweenShells = VANDER_WAALS_GAP;
-	final double groundPlaneDistance = VANDER_WAALS_GAP;
+	public static final double distanceBetweenShells = VANDER_WAALS_GAP;
 	
 	private List<Shell> shells;
+	
 	int numberOfShells;
 	double diameterInnermostShell;
+	double distanceToGroundPlane;
+	
 	double diameterOutermostShell;
 	double meanFreePath;
 	double groundCapacitance;
 	
-	public Nanotube(int numberOfShells, double diameterInnermostShell){
+	public Nanotube(int numberOfShells, double diameterInnermostShell, double distanceToGroundPlane){
 		this.numberOfShells = numberOfShells;
 		this.diameterInnermostShell = diameterInnermostShell;
+		this.distanceToGroundPlane = distanceToGroundPlane;
 		
 		calculateOutermostShellDiameter();
 		calculateMeanFreePath();	
