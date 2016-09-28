@@ -1,14 +1,15 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Nanotube {
-	final double planksConstant = Math.pow(10, -34) * 6.62;
-	final double vanderWaalsGap = Math.pow(10, -9) * 0.34;
-	final double fermiVelocity = Math.pow(10, 5) * 8;
-	final double coulombsConstant = Math.pow(10, -19) * 1.6;
-	//TODO set to vanderwaal gap for now
-	final double distanceBetweenShells = vanderWaalsGap;
-	final double groundPlaneDistance = vanderWaalsGap;
+public class Nanotube{
+	// constants
+
+	public static final double VANDER_WAALS_GAP = Math.pow(10, -9) * 0.34;
+
+	
+	//TODO fix groundPlaneDistance, set to vanderwaal gap for now
+	final double distanceBetweenShells = VANDER_WAALS_GAP;
+	final double groundPlaneDistance = VANDER_WAALS_GAP;
 	
 	private List<Shell> shells;
 	int numberOfShells;
@@ -40,8 +41,8 @@ public class Nanotube {
 		
 		double diameterCurrentShell = diameterInnermostShell;
 		
-		for(int i = 1; i <= numberOfShells; i++){
-			shells.add(new Shell(diameterCurrentShell, meanFreePath, i, numberOfShells, distanceBetweenShells, diameterOutermostShell));
+		for(int currentShell = 1; currentShell <= numberOfShells; currentShell++){
+			shells.add(new Shell(diameterCurrentShell, meanFreePath, currentShell, numberOfShells, distanceBetweenShells, diameterOutermostShell));
 			diameterCurrentShell += distanceBetweenShells;
 		}
 	}
