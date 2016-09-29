@@ -1,0 +1,78 @@
+MCC Model
+Shell number: 1
+Contact Quantum Resistance: 64499.99973813
+Scattering Resistance: 6.89215748800931E9
+Kinetic Inductance: 8.0E-9
+Quantum Capacitance: 3.867069502105137E-11
+Electrostatic Capacitance: 1.17297143625138E-9
+Number of Conducting Channels: 0.200000000812
+Inner Shell Conductance: 646798.4875037808
+Shell Diameter: 7.0E-9
+
+Shell number: 2
+Contact Quantum Resistance: 64499.9997254106
+Scattering Resistance: 6.892157486650176E9
+Kinetic Inductance: 8.0E-9
+Quantum Capacitance: 3.8670695028677235E-11
+Electrostatic Capacitance: 1.228613896166212E-9
+Number of Conducting Channels: 0.20000000085144
+Inner Shell Conductance: 678214.4140396788
+Shell Diameter: 7.34E-9
+
+Shell number: 3
+Contact Quantum Resistance: 64499.9997126912
+Scattering Resistance: 6.892157485291043E9
+Kinetic Inductance: 8.0E-9
+Quantum Capacitance: 3.86706950363031E-11
+Electrostatic Capacitance: 1.2842554932165444E-9
+Number of Conducting Channels: 0.20000000089088002
+Inner Shell Conductance: 709630.3405755766
+Shell Diameter: 7.68E-9
+
+Shell number: 4
+Contact Quantum Resistance: 64499.9996999718
+Scattering Resistance: 6.89215748393191E9
+Kinetic Inductance: 8.0E-9
+Quantum Capacitance: 3.867069504392895E-11
+Electrostatic Capacitance: 1.3398963349181782E-9
+Number of Conducting Channels: 0.20000000093032
+Inner Shell Conductance: 741046.2671114746
+Shell Diameter: 8.02E-9
+
+Shell number: 5
+Contact Quantum Resistance: 64499.9996872524
+Scattering Resistance: 6.892157482572777E9
+Kinetic Inductance: 8.0E-9
+Quantum Capacitance: 3.8670695051554815E-11
+Electrostatic Capacitance: 1.3955365116349747E-9
+Number of Conducting Channels: 0.20000000096976
+Inner Shell Conductance: 772462.1936473725
+Shell Diameter: 8.36E-9
+
+Shell number: 6
+Contact Quantum Resistance: 64499.999674533
+Scattering Resistance: 6.892157481213642E9
+Kinetic Inductance: 8.0E-9
+Quantum Capacitance: 3.8670695059180683E-11
+Electrostatic Capacitance: 1.451176099868322E-9
+Number of Conducting Channels: 0.2000000010092
+Inner Shell Conductance: 803878.1201832705
+Shell Diameter: 8.7E-9
+
+Shell number: 7
+Contact Quantum Resistance: 64499.99966181359
+Scattering Resistance: 6.892157479854508E9
+Kinetic Inductance: 8.0E-9
+Quantum Capacitance: 3.8670695066806545E-11
+Electrostatic Capacitance: 2.1301231649322735E-11
+Number of Conducting Channels: 0.20000000104864002
+Inner Shell Conductance: 0.0
+Shell Diameter: 9.04E-9
+
+ESC Model
+Scattering Resistance: 4.824510238752336E10
+Contact Quantum Resistance: 451499.99789980263
+Kinetic Inductance: 5.6E-8
+Quantum Capacitance: 2.390836736112876E-10
+Electrostatic Capacitance: 2.1301231649322735E-11
+
