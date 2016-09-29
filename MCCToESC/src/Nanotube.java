@@ -8,23 +8,22 @@ public class Nanotube{
 	
 	private List<Shell> shells;
 	
-	int numberOfShells;
-	double diameterInnermostShell;
-	double distanceToGroundPlane;
+	private int numberOfShells;
+	private double diameterInnermostShell;
+	private double distanceToGroundPlane;
 	
-	double diameterOutermostShell;
-	double meanFreePath;
-	double groundCapacitance;
+	private double diameterOutermostShell;
+	private double meanFreePath;
+	private double groundCapacitance;
 	
 	public Nanotube(int numberOfShells, double diameterInnermostShell, double distanceToGroundPlane){
 		this.numberOfShells = numberOfShells;
 		this.diameterInnermostShell = diameterInnermostShell;
 		this.distanceToGroundPlane = distanceToGroundPlane;
+		shells = new ArrayList<Shell>();
 		
 		calculateOutermostShellDiameter();
 		calculateMeanFreePath();	
-		
-		shells = new ArrayList<Shell>();
 		constructNanotube();
 	}
 	
@@ -46,7 +45,18 @@ public class Nanotube{
 		}
 	}
 	
-	public void printESC(){
+	// used to convert bridge of capacitances to equivalent capacitance recursively
+	// this is used when converting from the MCC to the ESC model
+	public double sumQuantumCapacitance(int index){
+		Shell temp = shells.get(index);
+		if(temp.currentShell == temp.numberOfShells){
+			return 1.0/((1.0/temp.quantumCapacitance) + (1.0/temp.electrostaticCapacitance));
+		}
+		else
+			return 1.0/((1.0/temp.quantumCapacitance) + (1.0/temp.electrostaticCapacitance)) + sumQuantumCapacitance(index + 1);
+	}
+	
+	public void printESC(String outputFileName){
 		double scatteringResistanceTotal = 0;
 		double contactQuantumResistanceTotal = 0;
 		double kineticInductanceTotal = 0;
@@ -69,16 +79,7 @@ public class Nanotube{
 		
 	}
 	
-	public double sumQuantumCapacitance(int index){
-		Shell temp = shells.get(index);
-		if(temp.currentShell == temp.numberOfShells){
-			return 1.0/((1.0/temp.quantumCapacitance) + (1.0/temp.electrostaticCapacitance));
-		}
-		else
-			return 1.0/((1.0/temp.quantumCapacitance) + (1.0/temp.electrostaticCapacitance)) + sumQuantumCapacitance(index + 1);
-	}
-	
-	public void printMCC(){
+	public void printMCC(String outputFileName){
 		System.out.println("MCC Model");
 		for(Shell s : shells){
 			System.out.println("Shell number: " + s.currentShell);
