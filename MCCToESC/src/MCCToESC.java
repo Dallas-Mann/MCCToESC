@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 
 public class MCCToESC{
 	public static void main(String[] args){
@@ -8,8 +9,9 @@ public class MCCToESC{
 			String outputFileName = args[3];
 			
 			Nanotube nanotube = new Nanotube(numberOfShells, diameterInnermostShell, distanceToGroundPlane);
-			nanotube.printMCC(outputFileName);
-			nanotube.printESC(outputFileName);
+			PrintWriter writer = new PrintWriter(outputFileName);
+			nanotube.printMCC(writer);
+			nanotube.printESC(writer);
 		}
 		catch(Exception e){
 			usage();

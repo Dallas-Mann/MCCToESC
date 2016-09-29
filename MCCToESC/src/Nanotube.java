@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +46,11 @@ public class Nanotube{
 		}
 	}
 	
+	// wrapper method so you don't have to pass in 0 as a parameter
+	public double sumQuantumCapacitance(){
+		return sumQuantumCapacitance(0);
+	}
+	
 	// used to convert bridge of capacitances to equivalent capacitance recursively
 	// this is used when converting from the MCC to the ESC model
 	public double sumQuantumCapacitance(int index){
@@ -56,7 +62,7 @@ public class Nanotube{
 			return 1.0/((1.0/temp.quantumCapacitance) + (1.0/temp.electrostaticCapacitance)) + sumQuantumCapacitance(index + 1);
 	}
 	
-	public void printESC(String outputFileName){
+	public void printESC(PrintWriter writer){
 		double scatteringResistanceTotal = 0;
 		double contactQuantumResistanceTotal = 0;
 		double kineticInductanceTotal = 0;
@@ -66,32 +72,32 @@ public class Nanotube{
 			kineticInductanceTotal += s.kineticInductance;
 		}
 		
-		double quantumCapacitanceTotal = sumQuantumCapacitance(0);
+		double quantumCapacitanceTotal = sumQuantumCapacitance();
 		double electrostaticCapacitance = shells.get(numberOfShells - 1).electrostaticCapacitance;
 		
-		System.out.println("ESC Model");
-		System.out.println("Scattering Resistance: " + scatteringResistanceTotal);
-		System.out.println("Contact Quantum Resistance: " + contactQuantumResistanceTotal);
-		System.out.println("Kinetic Inductance: " + kineticInductanceTotal);
-		System.out.println("Quantum Capacitance: " + quantumCapacitanceTotal);
-		System.out.println("Electrostatic Capacitance: " + electrostaticCapacitance);
-		System.out.println();
+		writer.println("ESC Model");
+		writer.println("Scattering Resistance: " + scatteringResistanceTotal);
+		writer.println("Contact Quantum Resistance: " + contactQuantumResistanceTotal);
+		writer.println("Kinetic Inductance: " + kineticInductanceTotal);
+		writer.println("Quantum Capacitance: " + quantumCapacitanceTotal);
+		writer.println("Electrostatic Capacitance: " + electrostaticCapacitance);
+		writer.println();
 		
 	}
 	
-	public void printMCC(String outputFileName){
-		System.out.println("MCC Model");
+	public void printMCC(PrintWriter writer){
+		writer.println("MCC Model");
 		for(Shell s : shells){
-			System.out.println("Shell number: " + s.currentShell);
-			System.out.println("Contact Quantum Resistance: " + s.contactQuantumResistance);
-			System.out.println("Scattering Resistance: " + s.scatteringResistance);
-			System.out.println("Kinetic Inductance: " + s.kineticInductance);
-			System.out.println("Quantum Capacitance: " + s.quantumCapacitance);
-			System.out.println("Electrostatic Capacitance: " + s.electrostaticCapacitance);
-			System.out.println("Number of Conducting Channels: " + s.numConductingChannels);
-			System.out.println("Inner Shell Conductance: " + s.innerShellConductance);
-			System.out.println("Shell Diameter: " + s.shellDiameter);
-			System.out.println();
+			writer.println("Shell number: " + s.currentShell);
+			writer.println("Contact Quantum Resistance: " + s.contactQuantumResistance);
+			writer.println("Scattering Resistance: " + s.scatteringResistance);
+			writer.println("Kinetic Inductance: " + s.kineticInductance);
+			writer.println("Quantum Capacitance: " + s.quantumCapacitance);
+			writer.println("Electrostatic Capacitance: " + s.electrostaticCapacitance);
+			writer.println("Number of Conducting Channels: " + s.numConductingChannels);
+			writer.println("Inner Shell Conductance: " + s.innerShellConductance);
+			writer.println("Shell Diameter: " + s.shellDiameter);
+			writer.println();
 		}
 	}
 }
