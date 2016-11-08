@@ -69,19 +69,11 @@ public class Nanotube{
 		double contactQuantumResistanceTotal = 0;
 		double kineticInductanceTotal = 0;
 		double tempResistance = 0;
-		double totalInnerShellConductance = 0;
 		for(Shell s : shells){
 			scatteringResistanceTotal += s.scatteringResistance;
 			contactQuantumResistanceTotal += s.contactQuantumResistance;
 			kineticInductanceTotal += s.kineticInductance;
-			
-			if(s.innerShellConductance != 0){
-				tempResistance = 1.0/(s.innerShellConductance);
-				totalInnerShellConductance += tempResistance;
-			}
 		}
-		double innerShellConductanceToResistance = totalInnerShellConductance;
-		totalInnerShellConductance = 1.0/totalInnerShellConductance;
 		
 		double quantumCapacitanceTotal = sumQuantumCapacitance();
 		double electrostaticCapacitance = shells.get(numberOfShells - 1).electrostaticCapacitance;
@@ -92,43 +84,41 @@ public class Nanotube{
 		writer.println("Kinetic Inductance: " + kineticInductanceTotal);
 		writer.println("Quantum Capacitance: " + quantumCapacitanceTotal);
 		writer.println("Electrostatic Capacitance: " + electrostaticCapacitance);
-		writer.println("Total Inner Shell Conductance: " + totalInnerShellConductance);
 		writer.println();
 		
 		PrintWriter escNetlist = new PrintWriter(new File("escNetlist.txt"));
-		int numNodes = 6;
-		int nodeOffset = 0;
+		int startNode = 3;
 		int nodeOne = 0;
-		int nodeTwo = 1;
-		
-		int numRes = 0;
+		int nodeTwo = 0;
 		int numCap = 0;
 		int numInd = 0;
+		
+		escNetlist.println("R0" + " " + 1 + " " + 2 + " " + contactQuantumResistanceTotal/2.0);
+		escNetlist.println("R1" + " " + 2 + " " + 3 + " " + scatteringResistanceTotal/2.0);
+		
 		for(int i = 0; i < 200; i++){
-			nodeOne = i;
-			nodeTwo = i+1;
-			nodeOffset = i * numNodes;
+			if(i == 0){
+				nodeOne = startNode;
+				nodeTwo = startNode + 1;
+			}
+			else{
+				nodeOne = 2 + 2*i;
+				nodeTwo = 4 + 2*i;
+			}
 			
-			escNetlist.println("R" + numRes + " " + (nodeOffset+1) + " " + (nodeOffset+2) + " " + contactQuantumResistanceTotal/2.0);
+			escNetlist.println("L" + numInd + " " + nodeOne + " " + nodeTwo + " " + kineticInductanceTotal);
+						
+			escNetlist.println("C" + numCap + " " + nodeTwo + " " + (nodeTwo+1) + " " + contactQuantumResistanceTotal);
 			
-			escNetlist.println("R" + (numRes+1) + " " + (nodeOffset+2) + " " + (nodeOffset+3) + " " + scatteringResistanceTotal/2.0);
+			escNetlist.println("C" + (numCap+1) + " " + (nodeTwo+1) + " " + 0 + " " + electrostaticCapacitance);
 			
-			escNetlist.println("L" + numInd + " " + (nodeOffset+3) + " " + (nodeOffset+4) + " " + kineticInductanceTotal);
-			
-			escNetlist.println("R" + (numRes+2) + " " + (nodeOffset+4) + " " + 0 + " " + innerShellConductanceToResistance);
-			
-			escNetlist.println("C" + numCap + " " + (nodeOffset+4) + " " + (nodeOffset+5) + " " + contactQuantumResistanceTotal);
-			
-			escNetlist.println("C" + (numCap+1) + " " + (nodeOffset+5) + " " + 0 + " " + electrostaticCapacitance);
-			
-			escNetlist.println("R" + (numRes+3) + " " + (nodeOffset+4) + " " + (nodeOffset+6) + " " + contactQuantumResistanceTotal/2.0);
-			
-			escNetlist.println("R" + (numRes+4) + " " + (nodeOffset+6) + " " + (nodeOffset+7) + " " + scatteringResistanceTotal/2.0);
-			
-			numRes += 5;
 			numCap += 2;
 			numInd += 1;
 		}
+		
+		escNetlist.println("R2" + " " + nodeTwo + " " + (nodeTwo+2) + " " + contactQuantumResistanceTotal/2.0);
+		escNetlist.println("R3" + " " + (nodeTwo+2) + " " + (nodeTwo+3) + " " + scatteringResistanceTotal/2.0);
+		
 		escNetlist.println(".end");
 		escNetlist.close();
 	}

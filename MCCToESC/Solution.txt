@@ -305,5 +305,4 @@ Contact Quantum Resistance: 1.9349999697764613
 Kinetic Inductance: 2.399999999999999E-7
 Quantum Capacitance: 1.1305860720294219E-9
 Electrostatic Capacitance: 3.735752143748241E-11
-Total Inner Shell Conductance: 0.08429038174120144
 
