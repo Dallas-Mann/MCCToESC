@@ -16,9 +16,7 @@ public class Nanotube{
 	protected int numberOfShells;
 	protected int numberOfSections = 200;
 	
-	private double groundCapacitance;
 	private double distanceToGroundPlane;
-
 	
 	public Nanotube(int numberOfShells, double diameterInnermostShell, double distanceToGroundPlane){
 		this.numberOfShells = numberOfShells;
@@ -116,9 +114,11 @@ public class Nanotube{
 		writer.println();
 		
 		PrintWriter escNetlist = new PrintWriter(new File("escNetlist.txt"));
-		int nodeOne = 3;
-		
-		int numRes = 0;
+		int startNode = 3;
+		int nodeOne = 0;
+		int nodeTwo  = 0;
+		//start at resistor number 5, 4 resistances already placed in netlist
+		int numRes = 4;
 		int numInd = 0;
 		int numCap = 0;
 
@@ -129,27 +129,29 @@ public class Nanotube{
 		for(int i = 0; i < 200; i++){
 			if(i == 0){
 				nodeOne = 3;
+				nodeTwo = 4;
 			}
 			else{
 				nodeOne = (3 * i) + 2;
+				nodeTwo = (3 * i) + 4;
 			}
 			
 			
-			escNetlist.println("R" + numRes + " " + nodeOne + " " + (nodeOne + 1) + " " + scatteringResistance);
+			escNetlist.println("R" + numRes + " " + nodeOne + " " + nodeTwo + " " + (scatteringResistance/numberOfSections));
 			
-			escNetlist.println("L" + numInd + " " + (nodeOne + 1) + " " + (nodeOne + 2) + " " + kineticInductance);
+			escNetlist.println("L" + numInd + " " + nodeTwo + " " + (nodeTwo + 1) + " " + (kineticInductance/numberOfSections));
 						
-			escNetlist.println("C" + numCap + " " + (nodeOne + 2) + " " + (nodeOne + 3) + " " + quantumCapacitance);
+			escNetlist.println("C" + numCap + " " + (nodeTwo + 1) + " " + (nodeTwo + 2) + " " + (quantumCapacitance/numberOfSections));
 			
-			escNetlist.println("C" + (numCap+1) + " " + (nodeOne + 3) + " " + 0 + " " + electrostaticCapacitance);
+			escNetlist.println("C" + (numCap+1) + " " + (nodeTwo + 2) + " " + 0 + " " + electrostaticCapacitance);
 			
 			numCap += 2;
 			numInd += 1;
 			numRes += 1;
 		}
 		
-		escNetlist.println("R2" + " " + nodeOne + " " + (nodeOne+2) + " " + contactQuantumResistance/2.0);
-		escNetlist.println("R3" + " " + (nodeOne+2) + " " + (nodeOne+3) + " " + imperfectContactResistance/2.0);
+		escNetlist.println("R2" + " " + (nodeTwo + 1) + " " + (nodeTwo + 3) + " " + contactQuantumResistance/2.0);
+		escNetlist.println("R3" + " " + (nodeTwo + 3) + " " + (nodeTwo + 4) + " " + imperfectContactResistance/2.0);
 		
 		escNetlist.println(".end");
 		escNetlist.close();
