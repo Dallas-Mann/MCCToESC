@@ -1,308 +1,308 @@
 MCC Model
 Shell number: 1
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999917698
-Scattering Resistance: (Ohms per micrometer)2007.7154246921098
+Contact Quantum Resistance (Ohms per micrometer): 4687.499999999999
+Scattering Resistance: (Ohms per micrometer)145.54546200509805
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.867069535748642E-11
-Electrostatic Capacitance: 3.6274953340887226E-9
-Number of Conducting Channels: 0.200000002552
-Inner Shell Conductance: 2.032795246440454
-Shell Diameter: 2.2E-8
+Quantum Capacitance: 5.334398646525682E-10
+Electrostatic Capacitance: 3.6274953340887743E-9
+Number of Conducting Channels: 2.7520000000000007
+Inner Shell Conductance: 2.0327952464404544
+Shell Diameter: 2.2000000000000002E-8
 
 Shell number: 2
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999916426061
-Scattering Resistance: (Ohms per micrometer)2007.715424296188
+Contact Quantum Resistance (Ohms per micrometer): 4621.270741982632
+Scattering Resistance: (Ohms per micrometer)143.48906350773433
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.867069536511228E-11
+Quantum Capacitance: 5.410848022477344E-10
 Electrostatic Capacitance: 3.6831289108564928E-9
-Number of Conducting Channels: 0.20000000259144002
+Number of Conducting Channels: 2.7914400000000006
 Inner Shell Conductance: 2.064211172976352
 Shell Diameter: 2.234E-8
 
 Shell number: 3
-Contact Quantum Resistance (Ohms per micrometer): 0.0644999991515412
-Scattering Resistance: (Ohms per micrometer)2007.7154239002666
+Contact Quantum Resistance (Ohms per micrometer): 4556.886904425478
+Scattering Resistance: (Ohms per micrometer)141.48996475937867
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.8670695372738145E-11
+Quantum Capacitance: 5.487297398429005E-10
 Electrostatic Capacitance: 3.7387624556628784E-9
-Number of Conducting Channels: 0.20000000263088002
+Number of Conducting Channels: 2.8308800000000005
 Inner Shell Conductance: 2.0956270995122503
 Shell Diameter: 2.2680000000000002E-8
 
 Shell number: 4
-Contact Quantum Resistance (Ohms per micrometer): 0.0644999991388218
-Scattering Resistance: (Ohms per micrometer)2007.7154235043452
+Contact Quantum Resistance (Ohms per micrometer): 4494.272415619163
+Scattering Resistance: (Ohms per micrometer)139.545803756386
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.8670695380364E-11
+Quantum Capacitance: 5.563746774380667E-10
 Electrostatic Capacitance: 3.794395969913645E-9
-Number of Conducting Channels: 0.20000000267032
+Number of Conducting Channels: 2.870320000000001
 Inner Shell Conductance: 2.1270430260481485
 Shell Diameter: 2.3020000000000004E-8
 
 Shell number: 5
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999912610241
-Scattering Resistance: (Ohms per micrometer)2007.7154231084237
+Contact Quantum Resistance (Ohms per micrometer): 4433.355328274496
+Scattering Resistance: (Ohms per micrometer)137.65434655711465
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.867069538798986E-11
+Quantum Capacitance: 5.640196150332328E-10
 Electrostatic Capacitance: 3.850029454933505E-9
-Number of Conducting Channels: 0.20000000270976
+Number of Conducting Channels: 2.909760000000001
 Inner Shell Conductance: 2.1584589525840463
 Shell Diameter: 2.3360000000000005E-8
 
 Shell number: 6
-Contact Quantum Resistance (Ohms per micrometer): 0.064499999113383
-Scattering Resistance: (Ohms per micrometer)2007.7154227125022
+Contact Quantum Resistance (Ohms per micrometer): 4374.0675437406735
+Scattering Resistance: (Ohms per micrometer)135.81347871898475
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.8670695395615724E-11
+Quantum Capacitance: 5.716645526283991E-10
 Electrostatic Capacitance: 3.905662911971594E-9
-Number of Conducting Channels: 0.20000000274920002
+Number of Conducting Channels: 2.949200000000001
 Inner Shell Conductance: 2.1898748791199445
 Shell Diameter: 2.3700000000000007E-8
 
 Shell number: 7
-Contact Quantum Resistance (Ohms per micrometer): 0.0644999991006636
-Scattering Resistance: (Ohms per micrometer)2007.7154223165808
+Contact Quantum Resistance (Ohms per micrometer): 4316.344558059851
+Scattering Resistance: (Ohms per micrometer)134.02119741354923
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.8670695403241586E-11
+Quantum Capacitance: 5.793094902235654E-10
 Electrostatic Capacitance: 3.961296342206877E-9
-Number of Conducting Channels: 0.20000000278864002
+Number of Conducting Channels: 2.9886400000000015
 Inner Shell Conductance: 2.2212908056558422
 Shell Diameter: 2.404000000000001E-8
 
 Shell number: 8
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999908794421
-Scattering Resistance: (Ohms per micrometer)2007.7154219206593
+Contact Quantum Resistance (Ohms per micrometer): 4260.125227867161
+Scattering Resistance: (Ohms per micrometer)132.27560415775997
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.867069541086744E-11
+Quantum Capacitance: 5.869544278187315E-10
 Electrostatic Capacitance: 4.016929746752992E-9
-Number of Conducting Channels: 0.20000000282808
+Number of Conducting Channels: 3.0280800000000014
 Inner Shell Conductance: 2.2527067321917404
 Shell Diameter: 2.438000000000001E-8
 
 Shell number: 9
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999907522481
-Scattering Resistance: (Ohms per micrometer)2007.7154215247378
+Contact Quantum Resistance (Ohms per micrometer): 4205.351554350092
+Scattering Resistance: (Ohms per micrometer)130.57489810597153
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.867069541849331E-11
+Quantum Capacitance: 5.945993654138978E-10
 Electrostatic Capacitance: 4.072563126662785E-9
-Number of Conducting Channels: 0.20000000286752
+Number of Conducting Channels: 3.067520000000002
 Inner Shell Conductance: 2.2841226587276386
 Shell Diameter: 2.4720000000000012E-8
 
 Shell number: 10
-Contact Quantum Resistance (Ohms per micrometer): 0.0644999990625054
-Scattering Resistance: (Ohms per micrometer)2007.7154211288164
+Contact Quantum Resistance (Ohms per micrometer): 4151.968483662485
+Scattering Resistance: (Ohms per micrometer)128.9173698528561
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.867069542611917E-11
+Quantum Capacitance: 6.02244303009064E-10
 Electrostatic Capacitance: 4.128196482932252E-9
-Number of Conducting Channels: 0.20000000290696002
+Number of Conducting Channels: 3.1069600000000017
 Inner Shell Conductance: 2.315538585263537
 Shell Diameter: 2.5060000000000014E-8
 
 Shell number: 11
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999904978601
-Scattering Resistance: (Ohms per micrometer)2007.7154207328947
+Contact Quantum Resistance (Ohms per micrometer): 4099.923722349348
+Scattering Resistance: (Ohms per micrometer)127.30139570239946
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.867069543374503E-11
+Quantum Capacitance: 6.098892406042302E-10
 Electrostatic Capacitance: 4.18382981650455E-9
-Number of Conducting Channels: 0.20000000294640002
+Number of Conducting Channels: 3.1464000000000025
 Inner Shell Conductance: 2.346954511799435
 Shell Diameter: 2.5400000000000016E-8
 
 Shell number: 12
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999903706662
-Scattering Resistance: (Ohms per micrometer)2007.7154203369735
+Contact Quantum Resistance (Ohms per micrometer): 4049.1675664816785
+Scattering Resistance: (Ohms per micrometer)125.72543236258873
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.867069544137089E-11
+Quantum Capacitance: 6.175341781993964E-10
 Electrostatic Capacitance: 4.239463128273153E-9
-Number of Conducting Channels: 0.20000000298584
+Number of Conducting Channels: 3.1858400000000024
 Inner Shell Conductance: 2.378370438335333
 Shell Diameter: 2.5740000000000017E-8
 
 Shell number: 13
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999902434721
-Scattering Resistance: (Ohms per micrometer)2007.715419941052
+Contact Quantum Resistance (Ohms per micrometer): 3999.6527433277083
+Scattering Resistance: (Ohms per micrometer)124.1880120293524
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.867069544899675E-11
+Quantum Capacitance: 6.251791157945625E-10
 Electrostatic Capacitance: 4.295096419085345E-9
-Number of Conducting Channels: 0.20000000302528
+Number of Conducting Channels: 3.2252800000000024
 Inner Shell Conductance: 2.409786364871231
 Shell Diameter: 2.608000000000002E-8
 
 Shell number: 14
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999901162781
-Scattering Resistance: (Ohms per micrometer)2007.7154195451303
+Contact Quantum Resistance (Ohms per micrometer): 3951.3342645004745
+Scattering Resistance: (Ohms per micrometer)122.6877378268365
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.8670695456622615E-11
+Quantum Capacitance: 6.328240533897288E-10
 Electrostatic Capacitance: 4.350729689745072E-9
-Number of Conducting Channels: 0.20000000306472002
+Number of Conducting Channels: 3.2647200000000027
 Inner Shell Conductance: 2.441202291407129
 Shell Diameter: 2.642000000000002E-8
 
 Shell number: 15
-Contact Quantum Resistance (Ohms per micrometer): 0.0644999989989084
-Scattering Resistance: (Ohms per micrometer)2007.7154191492089
+Contact Quantum Resistance (Ohms per micrometer): 3904.1692896227755
+Scattering Resistance: (Ohms per micrometer)121.22327957424267
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.8670695464248477E-11
+Quantum Capacitance: 6.404689909848949E-10
 Electrostatic Capacitance: 4.406362941015729E-9
-Number of Conducting Channels: 0.20000000310416002
+Number of Conducting Channels: 3.3041600000000027
 Inner Shell Conductance: 2.4726182179430274
 Shell Diameter: 2.6760000000000023E-8
 
 Shell number: 16
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999898618901
-Scattering Resistance: (Ohms per micrometer)2007.7154187532878
+Contact Quantum Resistance (Ohms per micrometer): 3858.1169996411013
+Scattering Resistance: (Ohms per micrometer)119.7933698522639
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.867069547187433E-11
+Quantum Capacitance: 6.481139285800612E-10
 Electrostatic Capacitance: 4.461996173622437E-9
-Number of Conducting Channels: 0.2000000031436
+Number of Conducting Channels: 3.3436000000000035
 Inner Shell Conductance: 2.5040341444789256
 Shell Diameter: 2.7100000000000024E-8
 
 Shell number: 17
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999897346961
-Scattering Resistance: (Ohms per micrometer)2007.7154183573662
+Contact Quantum Resistance (Ohms per micrometer): 3813.138479001131
+Scattering Resistance: (Ohms per micrometer)118.39680034466917
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.8670695479500194E-11
+Quantum Capacitance: 6.557588661752273E-10
 Electrostatic Capacitance: 4.51762938825484E-9
-Number of Conducting Channels: 0.20000000318304
+Number of Conducting Channels: 3.3830400000000034
 Inner Shell Conductance: 2.5354500710148233
 Shell Diameter: 2.7440000000000026E-8
 
 Shell number: 18
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999896075022
-Scattering Resistance: (Ohms per micrometer)2007.7154179614445
+Contact Quantum Resistance (Ohms per micrometer): 3769.1966059699357
+Scattering Resistance: (Ohms per micrometer)117.03241843284096
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.8670695487126056E-11
+Quantum Capacitance: 6.634038037703936E-10
 Electrostatic Capacitance: 4.573262585568793E-9
-Number of Conducting Channels: 0.20000000322248002
+Number of Conducting Channels: 3.4224800000000037
 Inner Shell Conductance: 2.5668659975507215
 Shell Diameter: 2.7780000000000028E-8
 
 Shell number: 19
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999894803081
-Scattering Resistance: (Ohms per micrometer)2007.715417565523
+Contact Quantum Resistance (Ohms per micrometer): 3726.2559504552346
+Scattering Resistance: (Ohms per micrometer)115.69912402309399
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.867069549475192E-11
+Quantum Capacitance: 6.710487413655597E-10
 Electrostatic Capacitance: 4.628895766188852E-9
-Number of Conducting Channels: 0.20000000326192002
+Number of Conducting Channels: 3.4619200000000037
 Inner Shell Conductance: 2.5982819240866197
 Shell Diameter: 2.812000000000003E-8
 
 Shell number: 20
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999893531141
-Scattering Resistance: (Ohms per micrometer)2007.7154171696016
+Contact Quantum Resistance (Ohms per micrometer): 3684.2826787305466
+Scattering Resistance: (Ohms per micrometer)114.39586658841979
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.867069550237778E-11
+Quantum Capacitance: 6.78693678960726E-10
 Electrostatic Capacitance: 4.6845289307097716E-9
-Number of Conducting Channels: 0.20000000330136
+Number of Conducting Channels: 3.5013600000000036
 Inner Shell Conductance: 2.629697850622518
 Shell Diameter: 2.846000000000003E-8
 
 Shell number: 21
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999892259202
-Scattering Resistance: (Ohms per micrometer)2007.71541677368
+Contact Quantum Resistance (Ohms per micrometer): 3643.244464527786
+Scattering Resistance: (Ohms per micrometer)113.12164240793875
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.867069551000364E-11
+Quantum Capacitance: 6.863386165558922E-10
 Electrostatic Capacitance: 4.740162079698404E-9
-Number of Conducting Channels: 0.2000000033408
+Number of Conducting Channels: 3.5408000000000044
 Inner Shell Conductance: 2.6611137771584157
 Shell Diameter: 2.8800000000000033E-8
 
 Shell number: 22
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999890987261
-Scattering Resistance: (Ohms per micrometer)2007.7154163777589
+Contact Quantum Resistance (Ohms per micrometer): 3603.110406006297
+Scattering Resistance: (Ohms per micrometer)111.87549198881345
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.86706955176295E-11
+Quantum Capacitance: 6.939835541510584E-10
 Electrostatic Capacitance: 4.795795213695288E-9
-Number of Conducting Channels: 0.20000000338024002
+Number of Conducting Channels: 3.5802400000000043
 Inner Shell Conductance: 2.692529703694314
 Shell Diameter: 2.9140000000000035E-8
 
 Shell number: 23
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999889715322
-Scattering Resistance: (Ohms per micrometer)2007.7154159818372
+Contact Quantum Resistance (Ohms per micrometer): 3563.8509481501083
+Scattering Resistance: (Ohms per micrometer)110.65649765670707
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.867069552525536E-11
+Quantum Capacitance: 7.016284917462246E-10
 Electrostatic Capacitance: 4.851428333216157E-9
-Number of Conducting Channels: 0.20000000341968002
+Number of Conducting Channels: 3.6196800000000047
 Inner Shell Conductance: 2.7239456302302116
 Shell Diameter: 2.9480000000000036E-8
 
 Shell number: 24
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999888443382
-Scattering Resistance: (Ohms per micrometer)2007.715415585916
+Contact Quantum Resistance (Ohms per micrometer): 3525.4378101838647
+Scattering Resistance: (Ohms per micrometer)109.46378130206976
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.867069553288122E-11
+Quantum Capacitance: 7.092734293413908E-10
 Electrostatic Capacitance: 4.907061438753376E-9
-Number of Conducting Channels: 0.20000000345912
+Number of Conducting Channels: 3.6591200000000046
 Inner Shell Conductance: 2.7553615567661103
 Shell Diameter: 2.982000000000004E-8
 
 Shell number: 25
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999887171441
-Scattering Resistance: (Ohms per micrometer)2007.7154151899942
+Contact Quantum Resistance (Ohms per micrometer): 3487.843917632804
+Scattering Resistance: (Ohms per micrometer)108.29650227062139
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.8670695540507085E-11
+Quantum Capacitance: 7.16918366936557E-10
 Electrostatic Capacitance: 4.962694530777229E-9
-Number of Conducting Channels: 0.20000000349856
+Number of Conducting Channels: 3.698560000000005
 Inner Shell Conductance: 2.786777483302008
 Shell Diameter: 3.016000000000004E-8
 
 Shell number: 26
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999885899502
-Scattering Resistance: (Ohms per micrometer)2007.7154147940726
+Contact Quantum Resistance (Ohms per micrometer): 3451.043338683783
+Scattering Resistance: (Ohms per micrometer)107.1538553873808
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.8670695548132947E-11
+Quantum Capacitance: 7.245633045317233E-10
 Electrostatic Capacitance: 5.018327609737241E-9
-Number of Conducting Channels: 0.20000000353800002
+Number of Conducting Channels: 3.7380000000000053
 Inner Shell Conductance: 2.8181934098379062
 Shell Diameter: 3.050000000000004E-8
 
 Shell number: 27
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999884627561
-Scattering Resistance: (Ohms per micrometer)2007.715414398151
+Contact Quantum Resistance (Ohms per micrometer): 3415.011224533012
+Scattering Resistance: (Ohms per micrometer)106.03506910448066
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.867069555575881E-11
+Quantum Capacitance: 7.322082421268894E-10
 Electrostatic Capacitance: 5.073960676063059E-9
-Number of Conducting Channels: 0.20000000357744002
+Number of Conducting Channels: 3.7774400000000057
 Inner Shell Conductance: 2.8496093363738044
 Shell Diameter: 3.084000000000004E-8
 
 Shell number: 28
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999883355623
-Scattering Resistance: (Ohms per micrometer)2007.71541400223
+Contact Quantum Resistance (Ohms per micrometer): 3379.7237534321175
+Scattering Resistance: (Ohms per micrometer)104.93940376381478
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.8670695563384664E-11
+Quantum Capacitance: 7.398531797220557E-10
 Electrostatic Capacitance: 5.129593730165643E-9
-Number of Conducting Channels: 0.20000000361688
+Number of Conducting Channels: 3.8168800000000056
 Inner Shell Conductance: 2.8810252629097026
 Shell Diameter: 3.1180000000000045E-8
 
 Shell number: 29
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999882083682
-Scattering Resistance: (Ohms per micrometer)2007.7154136063084
+Contact Quantum Resistance (Ohms per micrometer): 3345.158078167782
+Scattering Resistance: (Ohms per micrometer)103.86614996629673
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.8670695571010526E-11
+Quantum Capacitance: 7.474981173172218E-10
 Electrostatic Capacitance: 5.185226772438677E-9
-Number of Conducting Channels: 0.20000000365632
+Number of Conducting Channels: 3.8563200000000055
 Inner Shell Conductance: 2.9124411894456004
 Shell Diameter: 3.1520000000000047E-8
 
 Shell number: 30
-Contact Quantum Resistance (Ohms per micrometer): 0.06449999880811742
-Scattering Resistance: (Ohms per micrometer)2007.715413210387
+Contact Quantum Resistance (Ohms per micrometer): 3311.2922767316213
+Scattering Resistance: (Ohms per micrometer)102.8146270401743
 Kinetic Inductance: 8.0E-9
-Quantum Capacitance: 3.867069557863639E-11
+Quantum Capacitance: 7.551430549123879E-10
 Electrostatic Capacitance: 3.735752143748241E-11
-Number of Conducting Channels: 0.20000000369576001
+Number of Conducting Channels: 3.895760000000006
 Inner Shell Conductance: 0.0
 Shell Diameter: 3.186000000000005E-8
 
 ESC Model
-Scattering Resistance: 60231.46256853746
-Contact Quantum Resistance: 1.9349999697764613
-Kinetic Inductance: 2.399999999999999E-7
-Quantum Capacitance: 1.1305860720294219E-9
+Scattering Resistance: 4.0168027670275865
+Contact Quantum Resistance: 129.36688448439764
+Kinetic Inductance: 2.666666666666667E-10
+Quantum Capacitance: 1.6252050317865298E-8
 Electrostatic Capacitance: 3.735752143748241E-11
 
