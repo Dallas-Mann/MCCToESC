@@ -134,6 +134,7 @@ public class Nanotube{
 				nodeOne = (3 * i) + 2;
 			}
 			
+			
 			escNetlist.println("R" + numRes + " " + nodeOne + " " + (nodeOne + 1) + " " + scatteringResistance);
 			
 			escNetlist.println("L" + numInd + " " + (nodeOne + 1) + " " + (nodeOne + 2) + " " + kineticInductance);
