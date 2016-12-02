@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Nanotube{
-	// constants
+	//constants
 	public static final double VANDER_WAALS_GAP = Math.pow(10, -9) * 0.34;
 	public static final double distanceBetweenShells = VANDER_WAALS_GAP;
 	//passed in values
 	protected int numberOfShells;
 	private double diameterInnermostShell;
-	private double distanceToGroundPlane;
+	protected double distanceToGroundPlane;
 	private double lengthOfNanotube;
 	//instance variables
 	private List<Shell> shells;
@@ -53,20 +53,29 @@ public class Nanotube{
 		}
 	}
 	
-	// wrapper method so you don't have to pass in 0 as a parameter
+	//wrapper method so you don't have to pass in 0 as a parameter
 	private double sumQuantumCapacitance(){
+		//starts at innermost shell and works its way out
 		return sumQuantumCapacitance(0);
 	}
 	
-	// used to convert bridge of capacitances to equivalent capacitance recursively
-	// this is used when converting from the MCC to the ESC model
+	//used to convert bridge of capacitances to equivalent capacitance recursively
+	//this is used when converting from the MCC to the ESC model
 	private double sumQuantumCapacitance(int index){
 		Shell temp = shells.get(index);
+		if(temp.currentShell == numberOfShells){
+			return temp.quantumCapacitance;
+		}
+		else{
+			return temp.quantumCapacitance + (1.0/((1.0/temp.electrostaticCapacitance)+(1.0/sumQuantumCapacitance(index+1))));
+		}
+		/*
 		if(temp.currentShell == numberOfShells){
 			return 1.0/((1.0/temp.quantumCapacitance) + (1.0/temp.electrostaticCapacitance));
 		}
 		else
 			return 1.0/((1.0/temp.quantumCapacitance) + (1.0/temp.electrostaticCapacitance)) + sumQuantumCapacitance(index + 1);
+		 */
 	}
 	
 	public void printMCC(PrintWriter writer){
@@ -102,14 +111,15 @@ public class Nanotube{
 		}
 		//final inversion, to sum in parallel
 		//example: 1/R = 1/r1 + 1/r2
-		imperfectContactResistance = 1.0/imperfectContactResistance;
-		contactQuantumResistance = 1.0/contactQuantumResistance;
-		scatteringResistance = 1.0/scatteringResistance;
-		kineticInductance = 1.0/kineticInductance;
-		double quantumCapacitance = sumQuantumCapacitance();
-		double electrostaticCapacitance = shells.get(numberOfShells - 1).electrostaticCapacitance;
+		imperfectContactResistance = (1.0/imperfectContactResistance);
+		contactQuantumResistance = (1.0/contactQuantumResistance);
+		scatteringResistance = (1.0/scatteringResistance)*(lengthOfNanotube/numberOfSections);
+		kineticInductance = (1.0/kineticInductance)*(lengthOfNanotube/numberOfSections);
+		double quantumCapacitance = sumQuantumCapacitance()*(lengthOfNanotube/numberOfSections);
+		double electrostaticCapacitance = shells.get(numberOfShells - 1).electrostaticCapacitance/(numberOfSections * lengthOfNanotube);
 		
 		writer.println("ESC Model");
+		writer.println("Imperfect Contact Resistance: " + imperfectContactResistance);
 		writer.println("Contact Quantum Resistance: " + contactQuantumResistance);
 		writer.println("Scattering Resistance: " + scatteringResistance);
 		writer.println("Kinetic Inductance: " + kineticInductance);
