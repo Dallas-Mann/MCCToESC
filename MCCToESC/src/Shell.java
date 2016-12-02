@@ -1,9 +1,9 @@
 public class Shell{
 	// constants
-	public static final double PLANKS_CONSTANT = Math.pow(10, -34) * 6.62;
+	public static final double PLANCKS_CONSTANT = Math.pow(10, -34) * 6.62607004;
 	public static final double VANDER_WAALS_GAP = Math.pow(10, -9) * 0.34;
 	public static final double FERMI_VELOCITY = Math.pow(10, 5) * 8;
-	public static final double COULOMBS_CONSTANT = Math.pow(10, -19) * 1.602;
+	public static final double COULOMBS_CONSTANT = Math.pow(10, -19) * 1.60217662;
 	public static final double EPSILON = 8.85418782 * Math.pow(10, -12);
 	
 	// not currently used constant, but we think it might be used.
@@ -49,21 +49,23 @@ public class Shell{
 	}
 	
 	private void calcScatteringResistance(){
-		scatteringResistance = PLANKS_CONSTANT*Math.pow(10, -6)/
+		scatteringResistance = PLANCKS_CONSTANT/
 				(2 * COULOMBS_CONSTANT * COULOMBS_CONSTANT * numConductingChannels * nanotube.meanFreePath);
 	}
 	
 	private void calcKineticInductance(){
-		// making a method to calculate this value later
-		// normally 8 nH/uM so we set it as such
-		kineticInductance = 8 * Math.pow(10, -9);
+		// normally 8 nH/uM
+		//kineticInductance = 8 * Math.pow(10, -9);
+		kineticInductance = PLANCKS_CONSTANT/
+				(4 * COULOMBS_CONSTANT * COULOMBS_CONSTANT * FERMI_VELOCITY * numConductingChannels);
 	}
 	
 	private void calcQuantumCapacitance(){
 		quantumCapacitance = 4 * COULOMBS_CONSTANT * COULOMBS_CONSTANT * numConductingChannels / 
-				(PLANKS_CONSTANT * FERMI_VELOCITY);
+				(PLANCKS_CONSTANT * FERMI_VELOCITY);
 	}
 	
+	//TODO fix these formulas
 	private void calcElectrostaticCapacitance(){
 		if(currentShell < nanotube.numberOfShells){
 			electrostaticCapacitance = 2 * Math.PI * EPSILON /

@@ -23,14 +23,13 @@ public class Nanotube{
 		this.diameterInnermostShell = diameterInnermostShell;
 		this.distanceToGroundPlane = distanceToGroundPlane;
 		shells = new ArrayList<Shell>();
-		
 		calculateOutermostShellDiameter();
 		calculateMeanFreePath();	
 		constructNanotube();
 	}
 	
 	private void calculateOutermostShellDiameter(){
-		diameterOutermostShell = diameterInnermostShell + (numberOfShells * distanceBetweenShells);
+		diameterOutermostShell = diameterInnermostShell + ((numberOfShells - 1) * 2 * distanceBetweenShells);
 	}
 	
 	private void calculateMeanFreePath(){
@@ -38,12 +37,11 @@ public class Nanotube{
 	}
 	
 	private void constructNanotube(){
-		
 		double diameterCurrentShell = diameterInnermostShell;
 		
 		for(int currentShell = 1; currentShell <= numberOfShells; currentShell++){
 			shells.add(new Shell(diameterCurrentShell, currentShell, this));
-			diameterCurrentShell += distanceBetweenShells;
+			diameterCurrentShell += 2 * distanceBetweenShells;
 		}
 	}
 	
@@ -68,14 +66,14 @@ public class Nanotube{
 		
 		for(Shell s : shells){
 			writer.println("Shell number: " + s.currentShell);
-			writer.println("Contact Quantum Resistance (Ohms per micrometer): " + s.contactQuantumResistance);
-			writer.println("Scattering Resistance: (Ohms per micrometer)" + s.scatteringResistance);
-			writer.println("Kinetic Inductance: " + s.kineticInductance);
-			writer.println("Quantum Capacitance: " + s.quantumCapacitance);
-			writer.println("Electrostatic Capacitance: " + s.electrostaticCapacitance);
-			writer.println("Number of Conducting Channels: " + s.numConductingChannels);
-			writer.println("Inner Shell Conductance: " + s.innerShellConductance);
 			writer.println("Shell Diameter: " + s.shellDiameter);
+			writer.println("Number of Conducting Channels: " + s.numConductingChannels);
+			writer.println("Contact Quantum Resistance (Ohms per meter): " + s.contactQuantumResistance);
+			writer.println("Scattering Resistance (Ohms per meter): " + s.scatteringResistance);
+			writer.println("Kinetic Inductance (Henry per meter): " + s.kineticInductance);
+			writer.println("Quantum Capacitance (Farads per meter): " + s.quantumCapacitance);
+			writer.println("Electrostatic Capacitance: " + s.electrostaticCapacitance);
+			writer.println("Inner Shell Conductance: " + s.innerShellConductance);
 			writer.println();
 		}
 	}
@@ -97,17 +95,14 @@ public class Nanotube{
 		//example: 1/R = 1/r1 + 1/r2
 		imperfectContactResistance = 1.0/imperfectContactResistance;
 		contactQuantumResistance = 1.0/contactQuantumResistance;
-		
-		//outoput these values per micrometer
-		//need to divide by number of sections to get section parameters for the netlist
 		scatteringResistance = 1.0/scatteringResistance;
 		kineticInductance = 1.0/kineticInductance;
 		double quantumCapacitance = sumQuantumCapacitance();
 		double electrostaticCapacitance = shells.get(numberOfShells - 1).electrostaticCapacitance;
 		
 		writer.println("ESC Model");
-		writer.println("Scattering Resistance: " + scatteringResistance);
 		writer.println("Contact Quantum Resistance: " + contactQuantumResistance);
+		writer.println("Scattering Resistance: " + scatteringResistance);
 		writer.println("Kinetic Inductance: " + kineticInductance);
 		writer.println("Quantum Capacitance: " + quantumCapacitance);
 		writer.println("Electrostatic Capacitance: " + electrostaticCapacitance);
