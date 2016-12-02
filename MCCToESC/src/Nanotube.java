@@ -95,7 +95,7 @@ public class Nanotube{
 		}
 	}
 	
-	//TODO convert SI units to section length parameters (divide by length * num sections)
+	//convert SI units to section length parameters (multiply by length / num sections)
 	public void printESC(PrintWriter writer) throws FileNotFoundException{
 		double imperfectContactResistance = 0;
 		double scatteringResistance = 0;
