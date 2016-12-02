@@ -8,32 +8,40 @@ public class Nanotube{
 	// constants
 	public static final double VANDER_WAALS_GAP = Math.pow(10, -9) * 0.34;
 	public static final double distanceBetweenShells = VANDER_WAALS_GAP;
-	
+	//passed in values
+	protected int numberOfShells;
+	private double diameterInnermostShell;
+	private double distanceToGroundPlane;
+	private double lengthOfNanotube;
+	//instance variables
 	private List<Shell> shells;
-	private double diameterInnermostShell;	
 	protected double diameterOutermostShell;
 	protected double meanFreePath;
-	protected int numberOfShells;
+	//TODO actually calculate the number of sections required
 	protected int numberOfSections = 200;
 	
-	private double distanceToGroundPlane;
-	
-	public Nanotube(int numberOfShells, double diameterInnermostShell, double distanceToGroundPlane){
+	public Nanotube(int numberOfShells, double diameterInnermostShell, double distanceToGroundPlane, double lengthOfNanotube){
 		this.numberOfShells = numberOfShells;
 		this.diameterInnermostShell = diameterInnermostShell;
 		this.distanceToGroundPlane = distanceToGroundPlane;
+		this.lengthOfNanotube = lengthOfNanotube;
 		shells = new ArrayList<Shell>();
-		calculateOutermostShellDiameter();
-		calculateMeanFreePath();	
+		diameterOutermostShell = calculateOutermostShellDiameter();
+		meanFreePath = calculateMeanFreePath();	
 		constructNanotube();
 	}
 	
-	private void calculateOutermostShellDiameter(){
-		diameterOutermostShell = diameterInnermostShell + ((numberOfShells - 1) * 2 * distanceBetweenShells);
+	private double calculateOutermostShellDiameter(){
+		return diameterInnermostShell + ((numberOfShells - 1) * 2 * distanceBetweenShells);
 	}
 	
-	private void calculateMeanFreePath(){
-		meanFreePath = diameterOutermostShell * 1000;
+	private double calculateMeanFreePath(){
+		return diameterOutermostShell * 1000;
+	}
+	//TODO calculate number of sections for a given nanotube length
+	private int calculateNumberOfSections(double length){
+		//typically 200 per micrometer
+		return (int) Math.round(length * 200 / Math.pow(10, -9));
 	}
 	
 	private void constructNanotube(){
@@ -46,13 +54,13 @@ public class Nanotube{
 	}
 	
 	// wrapper method so you don't have to pass in 0 as a parameter
-	public double sumQuantumCapacitance(){
+	private double sumQuantumCapacitance(){
 		return sumQuantumCapacitance(0);
 	}
 	
 	// used to convert bridge of capacitances to equivalent capacitance recursively
 	// this is used when converting from the MCC to the ESC model
-	public double sumQuantumCapacitance(int index){
+	private double sumQuantumCapacitance(int index){
 		Shell temp = shells.get(index);
 		if(temp.currentShell == numberOfShells){
 			return 1.0/((1.0/temp.quantumCapacitance) + (1.0/temp.electrostaticCapacitance));
@@ -78,6 +86,7 @@ public class Nanotube{
 		}
 	}
 	
+	//TODO convert SI units to section length parameters (divide by length * num sections)
 	public void printESC(PrintWriter writer) throws FileNotFoundException{
 		double imperfectContactResistance = 0;
 		double scatteringResistance = 0;

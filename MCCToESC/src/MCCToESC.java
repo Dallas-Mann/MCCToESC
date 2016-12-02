@@ -7,10 +7,11 @@ public class MCCToESC{
 			int numberOfShells = Integer.parseInt(args[0]);
 			double diameterInnermostShell = convert(args[1]);
 			double distanceToGroundPlane = convert(args[2]);
-			String outputFileName = args[3];
-			//double lengthOfNanotube = convert(args[4]);
+			double lengthOfNanotube = convert(args[3]);
+			String outputFileName = args[4];
 			
-			Nanotube nanotube = new Nanotube(numberOfShells, diameterInnermostShell, distanceToGroundPlane);
+			
+			Nanotube nanotube = new Nanotube(numberOfShells, diameterInnermostShell, distanceToGroundPlane, lengthOfNanotube);
 			PrintWriter writer = new PrintWriter(new File(outputFileName));
 			nanotube.printMCC(writer);
 			nanotube.printESC(writer);
