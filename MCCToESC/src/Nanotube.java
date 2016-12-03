@@ -67,7 +67,7 @@ public class Nanotube{
 			return temp.quantumCapacitance;
 		}
 		else{
-			return temp.quantumCapacitance + (1.0/((1.0/temp.electrostaticCapacitance)+(1.0/sumQuantumCapacitance(index+1))));
+			return 1.0/((1.0/temp.quantumCapacitance)+(1.0/(temp.electrostaticCapacitance + sumQuantumCapacitance(index + 1))));
 		}
 		/*
 		if(temp.currentShell == numberOfShells){
@@ -113,14 +113,27 @@ public class Nanotube{
 		//example: 1/R = 1/r1 + 1/r2
 		imperfectContactResistance = (1.0/imperfectContactResistance);
 		contactQuantumResistance = (1.0/contactQuantumResistance);
-		scatteringResistance = (1.0/scatteringResistance)*(lengthOfNanotube/numberOfSections);
-		kineticInductance = (1.0/kineticInductance)*(lengthOfNanotube/numberOfSections);
-		double quantumCapacitance = sumQuantumCapacitance()*(lengthOfNanotube/numberOfSections);
-		double electrostaticCapacitance = shells.get(numberOfShells - 1).electrostaticCapacitance/(numberOfSections * lengthOfNanotube);
+		scatteringResistance = (1.0/scatteringResistance);
+		kineticInductance = (1.0/kineticInductance);
+		double quantumCapacitance = sumQuantumCapacitance();
+		double electrostaticCapacitance = shells.get(numberOfShells - 1).electrostaticCapacitance;
 		
 		writer.println("ESC Model");
 		writer.println("Imperfect Contact Resistance: " + imperfectContactResistance);
 		writer.println("Contact Quantum Resistance: " + contactQuantumResistance);
+		writer.println("");
+		writer.println("SI Unit Parameters:");
+		writer.println("Scattering Resistance: " + scatteringResistance);
+		writer.println("Kinetic Inductance: " + kineticInductance);
+		writer.println("Quantum Capacitance: " + quantumCapacitance);
+		writer.println("Electrostatic Capacitance: " + electrostaticCapacitance);
+		
+		scatteringResistance = scatteringResistance*(lengthOfNanotube/numberOfSections);
+		kineticInductance = kineticInductance*(lengthOfNanotube/numberOfSections);
+		quantumCapacitance = quantumCapacitance*(lengthOfNanotube/numberOfSections);
+		electrostaticCapacitance = electrostaticCapacitance*(lengthOfNanotube/numberOfSections);
+		writer.println("");
+		writer.println("Per Section Parameters:");
 		writer.println("Scattering Resistance: " + scatteringResistance);
 		writer.println("Kinetic Inductance: " + kineticInductance);
 		writer.println("Quantum Capacitance: " + quantumCapacitance);
@@ -151,11 +164,11 @@ public class Nanotube{
 			}
 			
 			
-			escNetlist.println("R" + numRes + " " + nodeOne + " " + nodeTwo + " " + (scatteringResistance/numberOfSections));
+			escNetlist.println("R" + numRes + " " + nodeOne + " " + nodeTwo + " " + scatteringResistance);
 			
-			escNetlist.println("L" + numInd + " " + nodeTwo + " " + (nodeTwo + 1) + " " + (kineticInductance/numberOfSections));
+			escNetlist.println("L" + numInd + " " + nodeTwo + " " + (nodeTwo + 1) + " " + kineticInductance);
 						
-			escNetlist.println("C" + numCap + " " + (nodeTwo + 1) + " " + (nodeTwo + 2) + " " + (quantumCapacitance/numberOfSections));
+			escNetlist.println("C" + numCap + " " + (nodeTwo + 1) + " " + (nodeTwo + 2) + " " + quantumCapacitance);
 			
 			escNetlist.println("C" + (numCap+1) + " " + (nodeTwo + 2) + " " + 0 + " " + electrostaticCapacitance);
 			

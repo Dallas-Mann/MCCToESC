@@ -1,12 +1,10 @@
 public class Shell{
 	//constants
-	public static final double PLANCKS_CONSTANT = Math.pow(10, -34) * 6.62607004;
-	public static final double VANDER_WAALS_GAP = Math.pow(10, -9) * 0.34;
+	public static final double PLANCKS_CONSTANT = Math.pow(10, -34) * 6.62;
 	public static final double FERMI_VELOCITY = Math.pow(10, 5) * 8;
-	public static final double COULOMBS_CONSTANT = Math.pow(10, -19) * 1.60217662;
-	public static final double EPSILON_O = Math.pow(10, -12) * 8.85418782;
-	//TODO make this an input parameter
-	public static final double EPSILON_R = 1;
+	public static final double COULOMBS_CONSTANT = Math.pow(10, -19) * 1.6;
+	public static final double EPSILON_O = Math.pow(10, -12) * 8.85;
+	public static final double EPSILON_R = 2;
 	
 	//instance variables
 	protected double imperfectContactResistance = 100000;
@@ -46,7 +44,8 @@ public class Shell{
 	}
 	
 	private void calcContactQuantumResistance(){
-		contactQuantumResistance = 12.9 * Math.pow(10, 3) / numConductingChannels;
+		contactQuantumResistance = PLANCKS_CONSTANT/
+				(2 * COULOMBS_CONSTANT * COULOMBS_CONSTANT * numConductingChannels);
 	}
 	
 	private void calcScatteringResistance(){
@@ -62,7 +61,7 @@ public class Shell{
 	}
 	
 	private void calcQuantumCapacitance(){
-		quantumCapacitance = 4 * COULOMBS_CONSTANT * COULOMBS_CONSTANT * numConductingChannels / 
+		quantumCapacitance = 4 * COULOMBS_CONSTANT * COULOMBS_CONSTANT * numConductingChannels/ 
 				(PLANCKS_CONSTANT * FERMI_VELOCITY);
 	}
 	
@@ -84,7 +83,7 @@ public class Shell{
 	private void calcInnerShellConductance(){
 		if(currentShell != nanotube.numberOfShells){
 			innerShellConductance = Math.pow(10, -2)
-					* Math.PI * shellDiameter / VANDER_WAALS_GAP;
+					* Math.PI * shellDiameter / Nanotube.VANDER_WAALS_GAP;
 		}
 		else
 			innerShellConductance = 0;
