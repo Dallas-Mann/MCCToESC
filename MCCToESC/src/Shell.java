@@ -5,6 +5,7 @@ public class Shell{
 	public static final double COULOMBS_CONSTANT = Math.pow(10, -19) * 1.6;
 	public static final double EPSILON_O = Math.pow(10, -12) * 8.85;
 	public static final double EPSILON_R = 2;
+	public static final double SIGMA = 0.01;
 	
 	//instance variables
 	protected double imperfectContactResistance = 100000;
@@ -65,7 +66,6 @@ public class Shell{
 				(PLANCKS_CONSTANT * FERMI_VELOCITY);
 	}
 	
-	//TODO fix these formulas
 	private void calcElectrostaticCapacitance(){
 		if(currentShell < nanotube.numberOfShells){
 			electrostaticCapacitance = 2 * Math.PI * EPSILON_O * EPSILON_R/
@@ -76,14 +76,12 @@ public class Shell{
 			double r = nanotube.diameterOutermostShell / 2.0;
 			double H = nanotube.distanceToGroundPlane;
 			electrostaticCapacitance = 2 * Math.PI * EPSILON_O * EPSILON_R / Math.log(((H+r)/r) + Math.sqrt(((H+r)*(H+r)/(r*r)) - 1));
-			//electrostaticCapacitance = Math.PI * EPSILON_O / Math.log((2 * 50 * Math.pow(10, -9)/nanotube.diameterOutermostShell)-1);
 		}
 	}
 	
 	private void calcInnerShellConductance(){
 		if(currentShell != nanotube.numberOfShells){
-			innerShellConductance = Math.pow(10, -2)
-					* Math.PI * shellDiameter / Nanotube.VANDER_WAALS_GAP;
+			innerShellConductance = SIGMA * Math.PI * shellDiameter / Nanotube.VANDER_WAALS_GAP;
 		}
 		else
 			innerShellConductance = 0;
