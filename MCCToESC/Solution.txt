@@ -306,12 +306,12 @@ Contact Quantum Resistance: 265.94926848813736
 SI Unit Parameters:
 Scattering Resistance: 1.208860311309715E7
 Kinetic Inductance: 1.6621829280508588E-4
-Quantum Capacitance: 1.0382185108482702E-10
+Quantum Capacitance: 1.620341699964671E-9
 Electrostatic Capacitance: 4.637916476114179E-11
 
 Per Section Parameters:
-Scattering Resistance: 6.044301556548574
-Kinetic Inductance: 8.310914640254294E-11
-Quantum Capacitance: 5.1910925542413506E-17
-Electrostatic Capacitance: 2.3189582380570895E-17
-
+Number of Sections: 200
+Scattering Resistance: 12.088603113097149
+Kinetic Inductance: 1.6621829280508589E-10
+Quantum Capacitance: 1.620341699964671E-15
+Electrostatic Capacitance: 4.637916476114179E-17

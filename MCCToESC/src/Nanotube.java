@@ -17,8 +17,7 @@ public class Nanotube{
 	private List<Shell> shells;
 	protected double diameterOutermostShell;
 	protected double meanFreePath;
-	//TODO actually calculate the number of sections required
-	protected int numberOfSections = 200;
+	protected int numberOfSections;
 	
 	public Nanotube(int numberOfShells, double diameterInnermostShell, double distanceToGroundPlane, double lengthOfNanotube){
 		this.numberOfShells = numberOfShells;
@@ -38,11 +37,6 @@ public class Nanotube{
 	private double calculateMeanFreePath(){
 		return diameterOutermostShell * 1000;
 	}
-	//TODO calculate number of sections for a given nanotube length
-	private int calculateNumberOfSections(double length){
-		//typically 200 per micrometer
-		return (int) Math.round(length * 200 / Math.pow(10, -9));
-	}
 	
 	private void constructNanotube(){
 		double diameterCurrentShell = diameterInnermostShell;
@@ -53,29 +47,33 @@ public class Nanotube{
 		}
 	}
 	
-	//wrapper method so you don't have to pass in 0 as a parameter
+	//wrapper method so you don't have to pass a start index as a parameter
 	private double sumQuantumCapacitance(){
-		//starts at innermost shell and works its way out
-		return sumQuantumCapacitance(0);
+		//starts at outermost shell and works its way in
+		return sumQuantumCapacitance(numberOfShells-1);
 	}
 	
 	//used to convert bridge of capacitances to equivalent capacitance recursively
 	//this is used when converting from the MCC to the ESC model
 	private double sumQuantumCapacitance(int index){
-		Shell temp = shells.get(index);
-		if(temp.currentShell == numberOfShells){
-			return temp.quantumCapacitance;
+		if(index == 0){
+			return shells.get(0).quantumCapacitance;
 		}
 		else{
-			return 1.0/((1.0/temp.quantumCapacitance)+(1.0/(temp.electrostaticCapacitance + sumQuantumCapacitance(index + 1))));
+			Shell temp = shells.get(index);
+			Shell temp2 = shells.get(index-1);
+			return temp.quantumCapacitance + addReciprocal(temp2.electrostaticCapacitance, sumQuantumCapacitance(index-1));
 		}
-		/*
-		if(temp.currentShell == numberOfShells){
-			return 1.0/((1.0/temp.quantumCapacitance) + (1.0/temp.electrostaticCapacitance));
-		}
-		else
-			return 1.0/((1.0/temp.quantumCapacitance) + (1.0/temp.electrostaticCapacitance)) + sumQuantumCapacitance(index + 1);
-		 */
+	}
+	
+	private int calculateNumberOfSections(double kineticInductance, double totalCapacitance){
+		//TODO set to 200 right now to confirm results
+		return 200;//(int) Math.round(20*Math.sqrt(kineticInductance*totalCapacitance)*lengthOfNanotube/Math.pow(10, -12));
+	}
+	
+	private double addReciprocal(double val1, double val2){
+		double val = 1.0/((1.0/val1)+(1.0/val2));
+		return val;
 	}
 	
 	public void printMCC(PrintWriter writer){
@@ -98,15 +96,15 @@ public class Nanotube{
 	//convert SI units to section length parameters (multiply by length / num sections)
 	public void printESC(PrintWriter writer) throws FileNotFoundException{
 		double imperfectContactResistance = 0;
-		double scatteringResistance = 0;
 		double contactQuantumResistance = 0;
+		double scatteringResistance = 0;
 		double kineticInductance = 0;
 		
 		//sum resistances and inductance in parallel, because the shells are in parallel
 		for(Shell s : shells){
 			imperfectContactResistance += 1.0/s.imperfectContactResistance;
-			scatteringResistance += 1.0/s.scatteringResistance;
 			contactQuantumResistance += 1.0/s.contactQuantumResistance;
+			scatteringResistance += 1.0/s.scatteringResistance;
 			kineticInductance += 1.0/s.kineticInductance;
 		}
 		//final inversion, to sum in parallel
@@ -119,6 +117,7 @@ public class Nanotube{
 		double electrostaticCapacitance = shells.get(numberOfShells - 1).electrostaticCapacitance;
 		
 		writer.println("ESC Model");
+		//writer.println("Number of Sections: " + calculateNumberOfSections());
 		writer.println("Imperfect Contact Resistance: " + imperfectContactResistance);
 		writer.println("Contact Quantum Resistance: " + contactQuantumResistance);
 		writer.println("");
@@ -128,17 +127,18 @@ public class Nanotube{
 		writer.println("Quantum Capacitance: " + quantumCapacitance);
 		writer.println("Electrostatic Capacitance: " + electrostaticCapacitance);
 		
+		numberOfSections = calculateNumberOfSections(kineticInductance, addReciprocal(quantumCapacitance, electrostaticCapacitance));
 		scatteringResistance = scatteringResistance*(lengthOfNanotube/numberOfSections);
 		kineticInductance = kineticInductance*(lengthOfNanotube/numberOfSections);
 		quantumCapacitance = quantumCapacitance*(lengthOfNanotube/numberOfSections);
 		electrostaticCapacitance = electrostaticCapacitance*(lengthOfNanotube/numberOfSections);
 		writer.println("");
 		writer.println("Per Section Parameters:");
+		writer.println("Number of Sections: " + numberOfSections);
 		writer.println("Scattering Resistance: " + scatteringResistance);
 		writer.println("Kinetic Inductance: " + kineticInductance);
 		writer.println("Quantum Capacitance: " + quantumCapacitance);
 		writer.println("Electrostatic Capacitance: " + electrostaticCapacitance);
-		writer.println();
 		
 		PrintWriter escNetlist = new PrintWriter(new File("escNetlist.txt"));
 		int startNode = 3;
@@ -153,10 +153,10 @@ public class Nanotube{
 		escNetlist.println("R0" + " " + 1 + " " + 2 + " " + contactQuantumResistance/2.0);
 		escNetlist.println("R1" + " " + 2 + " " + 3 + " " + imperfectContactResistance/2.0);
 		
-		for(int i = 0; i < 200; i++){
+		for(int i = 0; i < numberOfSections; i++){
 			if(i == 0){
-				nodeOne = 3;
-				nodeTwo = 4;
+				nodeOne = startNode;
+				nodeTwo = startNode + 1;
 			}
 			else{
 				nodeOne = (3 * i) + 2;
