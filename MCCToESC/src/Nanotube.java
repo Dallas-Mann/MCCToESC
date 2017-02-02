@@ -76,7 +76,7 @@ public class Nanotube{
 		return val;
 	}
 	
-	public void printMCC(PrintWriter writer){
+	public void printMCC(PrintWriter writer) throws FileNotFoundException{
 		writer.println("MCC Model");
 		
 		for(Shell s : shells){
@@ -91,6 +91,116 @@ public class Nanotube{
 			writer.println("Inner Shell Conductance: " + s.innerShellConductance);
 			writer.println();
 		}
+		
+		int[][] contactRes = new int[2][2];
+		int[][] quantumResFront = new int[numberOfShells][2];
+		int[][] quantumResBack = new int[numberOfShells][2];
+		
+		int[][][] scatteringRes = new int[numberOfShells][numberOfSections][2];
+		int[][][] kineticInd = new int[numberOfShells][numberOfSections][2];
+		int[][][] innerCond = new int[numberOfShells - 1][numberOfSections][2];
+		
+		int[][][] quantumCap = new int[numberOfShells][numberOfSections][2];
+		int[][][] innerCap = new int[numberOfShells - 1][numberOfSections][2];
+		
+		int[][] electroCap = new int[numberOfSections][2];
+		
+		int startNode = 2;
+		int commonNodeOne = startNode + 1;
+		int commonNodeTwo = startNode + 2;
+		int currentNode = startNode + 3;
+		
+		//imperfect contact resistance (parallel resistors from commonNodeOne to all shell beginnings)
+		contactRes[0][0] = startNode;
+		contactRes[0][1] = commonNodeOne;
+		
+		//precalculate component node values
+		for(int curShell = 0; curShell < numberOfShells; curShell++){
+			
+			//these all share a common node, the same as the second node of the contact resistance
+			quantumResFront[curShell][0] = commonNodeOne;
+			quantumResFront[curShell][1] = currentNode;
+			
+			for(int curSec = 0; curSec < numberOfSections; curSec++){
+				scatteringRes[curShell][curSec][0] = currentNode++;
+				scatteringRes[curShell][curSec][1] = currentNode;
+				
+				kineticInd[curShell][curSec][0] = currentNode++;
+				kineticInd[curShell][curSec][1] = currentNode;
+				
+				quantumCap[curShell][curSec][0] = currentNode++;
+				quantumCap[curShell][curSec][1] = currentNode;
+				
+				if(curShell != 0){
+					innerCond[curShell - 1][curSec][0] = scatteringRes[curShell - 1][curSec][1];
+					innerCond[curShell - 1][curSec][1] = scatteringRes[curShell][curSec][1];
+					
+					innerCap[curShell - 1][curSec][0] = quantumCap[curShell - 1][curSec][1];
+					innerCap[curShell - 1][curSec][1] = quantumCap[curShell][curSec][1];
+				}
+				
+				if(curShell == numberOfShells - 1){
+					electroCap[curSec][0] = kineticInd[curShell][curSec][1];
+					electroCap[curSec][1] = 0;
+				}
+			}
+
+			//use the last section of the shell kinetic inductance node value 2 for this resistances node value 1
+			quantumResBack[curShell][0] = kineticInd[curShell][numberOfSections - 1][1];
+			quantumResBack[curShell][1] = commonNodeTwo;
+		}
+		
+		//imperfect contact resistance (parallel resistors from all shell beginnings to commonNodeTwo)
+		contactRes[1][0] = commonNodeTwo;
+		contactRes[1][1] = currentNode;
+		
+		//print the components to a netlist
+		PrintWriter mccNetlist = new PrintWriter(new File("mccNetlist.txt"));
+		
+		double imperfectContactResistance = 0;
+		for(Shell s : shells){
+			imperfectContactResistance += 1.0/s.imperfectContactResistance;
+		}
+		imperfectContactResistance = 1.0/imperfectContactResistance;
+		
+		int numRes = 0;
+		int numInd = 0;
+		int numCap = 0;
+		
+		int curShell = 0;
+		//imperfect contact resistance
+		mccNetlist.println("R" + (numRes++) + " " + contactRes[0][0] + " " + contactRes[0][1] + " " + (imperfectContactResistance/2.0));
+		for(Shell s : shells){
+			//quantum contact resistance
+			mccNetlist.println("R" + (numRes++) + " " + quantumResFront[curShell][0] + " " + quantumResFront[curShell][1] + " " + (s.contactQuantumResistance/2.0));
+			for(int curSec = 0; curSec < numberOfSections; curSec++){
+				//scattering resistance
+				mccNetlist.println("R" + (numRes++) + " " + scatteringRes[curShell][curSec][0] + " " + scatteringRes[curShell][curSec][1] + " " + s.scatteringResistance);
+				//kinetic inductance
+				mccNetlist.println("L" + (numInd++) + " " + kineticInd[curShell][curSec][0] + " " + kineticInd[curShell][curSec][1] + " " + s.kineticInductance);
+				//quantum capacitance
+				mccNetlist.println("C" + (numCap++) + " " + quantumCap[curShell][curSec][0] + " " + quantumCap[curShell][curSec][1] + " " + s.quantumCapacitance);
+				
+				if(curShell != numberOfShells - 1){
+					//inner shell conductance
+					mccNetlist.println("R" + (numRes++) + " " + innerCond[curShell][curSec][0] + " " + innerCond[curShell][curSec][1] + " " + (1.0/s.innerShellConductance));
+					//inner shell capacitance
+					mccNetlist.println("C" + (numCap++) + " " + innerCap[curShell][curSec][0] + " " + innerCap[curShell][curSec][1] + " " + s.electrostaticCapacitance);
+				}
+				else if(curShell == numberOfShells - 1){
+					//electrostatic capacitance to ground
+					mccNetlist.println("C" + (numCap++) + " " + electroCap[curSec][0] + " " + electroCap[curSec][1] + " " + s.electrostaticCapacitance);
+				}
+			}
+			//quantum contact resistance
+			mccNetlist.println("R" + (numRes++) + " " + quantumResBack[curShell][0] + " " + quantumResBack[curShell][1] + " " + (s.contactQuantumResistance/2.0));
+			curShell++;
+		}
+		//imperfect contact resistance
+		mccNetlist.println("R" + (numRes++) + " " + contactRes[1][0] + " " + contactRes[1][1] + " " + (imperfectContactResistance/2.0));
+		
+		mccNetlist.println(".end");
+		mccNetlist.close();
 	}
 	
 	//convert SI units to section length parameters (multiply by length / num sections)

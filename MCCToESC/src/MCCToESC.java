@@ -13,11 +13,12 @@ public class MCCToESC{
 			
 			Nanotube nanotube = new Nanotube(numberOfShells, diameterInnermostShell, distanceToGroundPlane, lengthOfNanotube);
 			PrintWriter writer = new PrintWriter(new File(outputFileName));
-			nanotube.printMCC(writer);
 			nanotube.printESC(writer);
+			nanotube.printMCC(writer);
 			writer.close();
 		}
 		catch(Exception e){
+			System.out.println(e);
 			usage();
 		}
 	}
