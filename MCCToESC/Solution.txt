@@ -1,4 +1,4 @@
-ESC Model
+***************ESC Model*********************
 Imperfect Contact Resistance: 3333.3333333333317
 Contact Quantum Resistance: 265.94926848813736
 
@@ -14,7 +14,7 @@ Scattering Resistance: 12.088603113097149
 Kinetic Inductance: 1.6621829280508589E-10
 Quantum Capacitance: 1.620341699964671E-15
 Electrostatic Capacitance: 4.637916476114179E-17
-MCC Model
+***************MCC Model*********************
 Shell number: 1
 Shell Diameter: 2.28E-9
 Number of Conducting Channels: 0.6666666666666666

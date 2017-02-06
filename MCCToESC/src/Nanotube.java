@@ -77,8 +77,30 @@ public class Nanotube{
 	}
 	
 	public void printMCC(PrintWriter writer) throws FileNotFoundException{
-		writer.println("MCC Model");
+		writer.println("***************MCC Model*********************");
 		
+		double imperfectContactResistance = 0;
+		double contactQuantumResistance = 0;
+		
+		double[] scatteringResistance = new double[numberOfShells];
+		double[] kineticInductance = new double[numberOfShells];
+		double[] quantumCapacitance = new double[numberOfShells];
+		double[] innerShellConductance = new double[numberOfShells];
+		double[] electrostaticCapacitance = new double[numberOfShells];
+		
+		for(int curShell = 0; curShell < numberOfShells; curShell++){
+			imperfectContactResistance += 1.0/shells.get(curShell).imperfectContactResistance;
+			contactQuantumResistance += 1.0/shells.get(curShell).contactQuantumResistance;
+			
+			scatteringResistance[curShell] = shells.get(curShell).scatteringResistance*(lengthOfNanotube/numberOfSections);
+			kineticInductance[curShell] = shells.get(curShell).kineticInductance*(lengthOfNanotube/numberOfSections);
+			quantumCapacitance[curShell] = shells.get(curShell).quantumCapacitance*(lengthOfNanotube/numberOfSections);
+			innerShellConductance[curShell] = 1.0/shells.get(curShell).innerShellConductance*(lengthOfNanotube/numberOfSections);
+			electrostaticCapacitance[curShell] = shells.get(curShell).electrostaticCapacitance*(lengthOfNanotube/numberOfSections);
+		}
+		imperfectContactResistance = 1.0/imperfectContactResistance/2.0;
+		contactQuantumResistance = 1.0/contactQuantumResistance/2.0;
+
 		for(Shell s : shells){
 			writer.println("Shell number: " + s.currentShell);
 			writer.println("Shell Diameter: " + s.shellDiameter);
@@ -105,7 +127,7 @@ public class Nanotube{
 		
 		int[][] electroCap = new int[numberOfSections][2];
 		
-		int startNode = 2;
+		int startNode = 1;
 		int commonNodeOne = startNode + 1;
 		int commonNodeTwo = startNode + 2;
 		int currentNode = startNode + 3;
@@ -122,8 +144,15 @@ public class Nanotube{
 			quantumResFront[curShell][1] = currentNode;
 			
 			for(int curSec = 0; curSec < numberOfSections; curSec++){
-				scatteringRes[curShell][curSec][0] = currentNode++;
-				scatteringRes[curShell][curSec][1] = currentNode;
+				
+				if(curSec == 0){
+					scatteringRes[curShell][curSec][0] = currentNode++;
+					scatteringRes[curShell][curSec][1] = currentNode;
+				}
+				else{
+					scatteringRes[curShell][curSec][0] = currentNode++ - 1;
+					scatteringRes[curShell][curSec][1] = currentNode;
+				}
 				
 				kineticInd[curShell][curSec][0] = currentNode++;
 				kineticInd[curShell][curSec][1] = currentNode;
@@ -157,47 +186,41 @@ public class Nanotube{
 		//print the components to a netlist
 		PrintWriter mccNetlist = new PrintWriter(new File("mccNetlist.txt"));
 		
-		double imperfectContactResistance = 0;
-		for(Shell s : shells){
-			imperfectContactResistance += 1.0/s.imperfectContactResistance;
-		}
-		imperfectContactResistance = 1.0/imperfectContactResistance;
-		
 		int numRes = 0;
 		int numInd = 0;
 		int numCap = 0;
 		
 		int curShell = 0;
 		//imperfect contact resistance
-		mccNetlist.println("R" + (numRes++) + " " + contactRes[0][0] + " " + contactRes[0][1] + " " + (imperfectContactResistance/2.0));
+		mccNetlist.println("R" + (numRes++) + " " + contactRes[0][0] + " " + contactRes[0][1] + " " + imperfectContactResistance);
 		for(Shell s : shells){
 			//quantum contact resistance
-			mccNetlist.println("R" + (numRes++) + " " + quantumResFront[curShell][0] + " " + quantumResFront[curShell][1] + " " + (s.contactQuantumResistance/2.0));
+			mccNetlist.println("R" + (numRes++) + " " + quantumResFront[curShell][0] + " " + quantumResFront[curShell][1] + " " + contactQuantumResistance);
 			for(int curSec = 0; curSec < numberOfSections; curSec++){
 				//scattering resistance
-				mccNetlist.println("R" + (numRes++) + " " + scatteringRes[curShell][curSec][0] + " " + scatteringRes[curShell][curSec][1] + " " + s.scatteringResistance);
+				mccNetlist.println("R" + (numRes++) + " " + scatteringRes[curShell][curSec][0] + " " + scatteringRes[curShell][curSec][1] + " " + scatteringResistance[curShell]);
 				//kinetic inductance
-				mccNetlist.println("L" + (numInd++) + " " + kineticInd[curShell][curSec][0] + " " + kineticInd[curShell][curSec][1] + " " + s.kineticInductance);
+				mccNetlist.println("L" + (numInd++) + " " + kineticInd[curShell][curSec][0] + " " + kineticInd[curShell][curSec][1] + " " + kineticInductance[curShell]);
 				//quantum capacitance
-				mccNetlist.println("C" + (numCap++) + " " + quantumCap[curShell][curSec][0] + " " + quantumCap[curShell][curSec][1] + " " + s.quantumCapacitance);
+				mccNetlist.println("C" + (numCap++) + " " + quantumCap[curShell][curSec][0] + " " + quantumCap[curShell][curSec][1] + " " + quantumCapacitance[curShell]);
 				
 				if(curShell != numberOfShells - 1){
 					//inner shell conductance
-					mccNetlist.println("R" + (numRes++) + " " + innerCond[curShell][curSec][0] + " " + innerCond[curShell][curSec][1] + " " + (1.0/s.innerShellConductance));
+					mccNetlist.println("R" + (numRes++) + " " + innerCond[curShell][curSec][0] + " " + innerCond[curShell][curSec][1] + " " + innerShellConductance[curShell]);
 					//inner shell capacitance
-					mccNetlist.println("C" + (numCap++) + " " + innerCap[curShell][curSec][0] + " " + innerCap[curShell][curSec][1] + " " + s.electrostaticCapacitance);
+					mccNetlist.println("C" + (numCap++) + " " + innerCap[curShell][curSec][0] + " " + innerCap[curShell][curSec][1] + " " + electrostaticCapacitance[curShell]);
 				}
 				else if(curShell == numberOfShells - 1){
 					//electrostatic capacitance to ground
-					mccNetlist.println("C" + (numCap++) + " " + electroCap[curSec][0] + " " + electroCap[curSec][1] + " " + s.electrostaticCapacitance);
+					mccNetlist.println("C" + (numCap++) + " " + electroCap[curSec][0] + " " + electroCap[curSec][1] + " " + electrostaticCapacitance[curShell]);
 				}
 			}
 			//quantum contact resistance
-			mccNetlist.println("R" + (numRes++) + " " + quantumResBack[curShell][0] + " " + quantumResBack[curShell][1] + " " + (s.contactQuantumResistance/2.0));
+			mccNetlist.println("R" + (numRes++) + " " + quantumResBack[curShell][0] + " " + quantumResBack[curShell][1] + " " + contactQuantumResistance);
 			curShell++;
 		}
 		//imperfect contact resistance
-		mccNetlist.println("R" + (numRes++) + " " + contactRes[1][0] + " " + contactRes[1][1] + " " + (imperfectContactResistance/2.0));
+		mccNetlist.println("R" + (numRes++) + " " + contactRes[1][0] + " " + contactRes[1][1] + " " + imperfectContactResistance);
 		
 		mccNetlist.println(".end");
 		mccNetlist.close();
@@ -226,7 +249,7 @@ public class Nanotube{
 		double quantumCapacitance = sumQuantumCapacitance();
 		double electrostaticCapacitance = shells.get(numberOfShells - 1).electrostaticCapacitance;
 		
-		writer.println("ESC Model");
+		writer.println("***************ESC Model*********************");
 		//writer.println("Number of Sections: " + calculateNumberOfSections());
 		writer.println("Imperfect Contact Resistance: " + imperfectContactResistance);
 		writer.println("Contact Quantum Resistance: " + contactQuantumResistance);
