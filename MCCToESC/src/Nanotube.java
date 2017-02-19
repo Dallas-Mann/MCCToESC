@@ -130,7 +130,8 @@ public class Nanotube{
 		int startNode = 1;
 		int commonNodeOne = startNode + 1;
 		int commonNodeTwo = startNode + 2;
-		int currentNode = startNode + 3;
+		int endNode = startNode + 3;
+		int currentNode = startNode + 4;
 		
 		//imperfect contact resistance (parallel resistors from commonNodeOne to all shell beginnings)
 		contactRes[0][0] = startNode;
@@ -157,8 +158,17 @@ public class Nanotube{
 				kineticInd[curShell][curSec][0] = currentNode++;
 				kineticInd[curShell][curSec][1] = currentNode;
 				
-				quantumCap[curShell][curSec][0] = currentNode++;
-				quantumCap[curShell][curSec][1] = currentNode;
+				if(curSec == numberOfSections - 1){
+					quantumCap[curShell][curSec][0] = currentNode++;
+					quantumCap[curShell][curSec][1] = currentNode++;
+				}
+				else{
+					quantumCap[curShell][curSec][0] = currentNode++;
+					quantumCap[curShell][curSec][1] = currentNode;
+				}
+				
+				//quantumCap[curShell][curSec][0] = currentNode++;
+				//quantumCap[curShell][curSec][1] = currentNode;
 				
 				if(curShell != 0){
 					innerCond[curShell - 1][curSec][0] = scatteringRes[curShell - 1][curSec][1];
@@ -181,7 +191,7 @@ public class Nanotube{
 		
 		//imperfect contact resistance (parallel resistors from all shell beginnings to commonNodeTwo)
 		contactRes[1][0] = commonNodeTwo;
-		contactRes[1][1] = currentNode;
+		contactRes[1][1] = endNode;
 		
 		//print the components to a netlist
 		PrintWriter mccNetlist = new PrintWriter(new File("mccNetlist.txt"));
