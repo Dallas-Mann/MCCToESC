@@ -3,18 +3,24 @@ import java.io.PrintWriter;
 
 public class MCCToESC{
 	public static void main(String[] args){
+		if(args.length != 7){
+			usage();
+		}
 		try{
 			int numberOfShells = Integer.parseInt(args[0]);
 			double diameterInnermostShell = convert(args[1]);
 			double distanceToGroundPlane = convert(args[2]);
 			double lengthOfNanotube = convert(args[3]);
-			String outputFileName = args[4];
+			int numberOfNanotubes = Integer.parseInt(args[4]);
+			double distanceBetweenNanotubes = convert(args[5]);
+			String outputFileName = args[6];
 			
-			
-			Nanotube nanotube = new Nanotube(numberOfShells, diameterInnermostShell, distanceToGroundPlane, lengthOfNanotube);
+			Nanotube nanotube = new Nanotube(numberOfShells, diameterInnermostShell, distanceToGroundPlane, lengthOfNanotube, numberOfNanotubes, distanceBetweenNanotubes);
 			PrintWriter writer = new PrintWriter(new File(outputFileName));
 			nanotube.printESC(writer);
 			nanotube.printMCC(writer);
+			nanotube.printMCCCoupled();
+			nanotube.printESCCoupled();
 			writer.close();
 		}
 		catch(Exception e){
@@ -24,11 +30,11 @@ public class MCCToESC{
 	}
 	
 	public static void usage(){
-		System.out.println("Correct Usage: MCCToESC.java <number of shells> <diameter of innermost shell> "
-				+ "<distance to ground plane> <filename.txt>");
+		System.out.println("Correct Usage: java MCCToESC <number of shells> <diameter of innermost shell> "
+				+ "<distance to ground plane> <length of nanotube> <number of nanotubes> <filename.txt>");
 	}
 	
-	private static double convert(String token){
+	public static double convert(String token){
 		double baseNum;
 		int indexOfModifier = token.length();
 		for(int i = 0; i < token.length(); i++){
