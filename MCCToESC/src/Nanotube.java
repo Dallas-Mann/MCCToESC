@@ -256,30 +256,8 @@ public class Nanotube{
 	}
 	
 	public void printMCCCoupled() throws FileNotFoundException, InterruptedException{
-		
-		double imperfectContactResistance = 0;
-		double contactQuantumResistance = 0;
-		
-		double[] scatteringResistance = new double[numberOfShells];
-		double[] kineticInductance = new double[numberOfShells];
-		double[] quantumCapacitance = new double[numberOfShells];
-		double[] innerShellConductance = new double[numberOfShells];
-		double[] electrostaticCapacitance = new double[numberOfShells];
-		
-		for(int curShell = 0; curShell < numberOfShells; curShell++){
-			imperfectContactResistance += 1.0/shells.get(curShell).imperfectContactResistance;
-			contactQuantumResistance += 1.0/shells.get(curShell).contactQuantumResistance;
-			
-			scatteringResistance[curShell] = shells.get(curShell).scatteringResistance*(lengthOfNanotube/numberOfSections);
-			kineticInductance[curShell] = shells.get(curShell).kineticInductance*(lengthOfNanotube/numberOfSections);
-			quantumCapacitance[curShell] = shells.get(curShell).quantumCapacitance*(lengthOfNanotube/numberOfSections);
-			innerShellConductance[curShell] = 1.0/shells.get(curShell).innerShellConductance*(lengthOfNanotube/numberOfSections);
-			electrostaticCapacitance[curShell] = shells.get(curShell).electrostaticCapacitance*(lengthOfNanotube/numberOfSections);
-		}
-		imperfectContactResistance = 1.0/imperfectContactResistance/2.0;
-		contactQuantumResistance = 1.0/contactQuantumResistance/2.0;
-		
-		int[][][] contactRes = new int[numberOfNanotubes][2][2];
+		int[][][] contactResFront = new int[numberOfNanotubes][numberOfShells][2];
+		int[][][] contactResBack = new int[numberOfNanotubes][numberOfShells][2];
 		int[][][] quantumResFront = new int[numberOfNanotubes][numberOfShells][2];
 		int[][][] quantumResBack = new int[numberOfNanotubes][numberOfShells][2];
 		
@@ -292,31 +270,27 @@ public class Nanotube{
 		
 		int[][][] electroCap = new int[numberOfNanotubes][numberOfSections][2];
 		
-		int currentNode = 1;
+		int currentNode = 2;
 		
 		System.out.println("**********************MCC Coupled**********************");
 		
 		for(int curNanotube = 0; curNanotube < numberOfNanotubes; curNanotube++){
 			
 			int startNode = currentNode;
-			int commonNodeOne = startNode + 1;
-			int commonNodeTwo = startNode + 2;
-			int endNode = startNode + 3;
-			currentNode = startNode + 4;
+			int endNode = startNode + 1;
+			currentNode = startNode + 2;
 			
 			System.out.println("nanotube: " + curNanotube);
 			System.out.println("start: " + startNode);
 			System.out.println("stop: " + endNode + "\n");
 			
-			//imperfect contact resistance (parallel resistors from commonNodeOne to all shell beginnings)
-			contactRes[curNanotube][0][0] = startNode;
-			contactRes[curNanotube][0][1] = commonNodeOne;
-			
 			//precalculate component node values
 			for(int curShell = 0; curShell < numberOfShells; curShell++){
-				
+				//imperfect contact resistance (parallel resistors from commonNodeOne to all shell beginnings)
+				contactResFront[curNanotube][curShell][0] = startNode;
+				contactResFront[curNanotube][curShell][1] = currentNode;
 				//these all share a common node, the same as the second node of the contact resistance
-				quantumResFront[curNanotube][curShell][0] = commonNodeOne;
+				quantumResFront[curNanotube][curShell][0] = currentNode++;
 				quantumResFront[curNanotube][curShell][1] = currentNode;
 				
 				for(int curSec = 0; curSec < numberOfSections; curSec++){
@@ -353,20 +327,20 @@ public class Nanotube{
 					
 					//outermost shell capacitance to ground
 					if(curShell == numberOfShells - 1){
-						electroCap[curNanotube][curSec][0] = kineticInd[curNanotube][curShell][curSec][1];
+						electroCap[curNanotube][curSec][0] = quantumCap[curNanotube][curShell][curSec][1];
 						electroCap[curNanotube][curSec][1] = 0;
 					}
 				}
 
 				//use the last section of the shell kinetic inductance node value 2 for this resistances node value 1
 				quantumResBack[curNanotube][curShell][0] = kineticInd[curNanotube][curShell][numberOfSections - 1][1];
-				quantumResBack[curNanotube][curShell][1] = commonNodeTwo;
+				quantumResBack[curNanotube][curShell][1] = currentNode;
+				//imperfect contact resistance (parallel resistors from all shell beginnings to commonNodeTwo)
+				contactResBack[curNanotube][curShell][0] = currentNode++;
+				contactResBack[curNanotube][curShell][1] = endNode;
 			}
-			
-			//imperfect contact resistance (parallel resistors from all shell beginnings to commonNodeTwo)
-			contactRes[curNanotube][1][0] = commonNodeTwo;
-			contactRes[curNanotube][1][1] = endNode;
 		}
+		
 		
 		int numberCoupled = numberOfNanotubes * (numberOfNanotubes - 1) / 2;
 		int[][][] coupledCap = new int[numberCoupled][numberOfSections][2];
@@ -378,7 +352,8 @@ public class Nanotube{
 			for(int next = current+1; next < numberOfNanotubes; next++){
 				for(int curSec = 0; curSec < numberOfSections; curSec++){
 					//coupled capacitance
-					coupledCapacitance[indexOfCoupled] = Math.PI * Shell.EPSILON_O * Shell.EPSILON_R * lengthOfNanotube / acosh((next - current) * distanceBetweenNanotubes / diameterOutermostShell) / numberOfSections;
+					//TODO
+					coupledCapacitance[indexOfCoupled] = Math.PI * Shell.EPSILON_O * (lengthOfNanotube / numberOfSections) / acosh(distanceBetweenNanotubes / diameterOutermostShell);
 					coupledCap[indexOfCoupled][curSec][0] = electroCap[current][curSec][0];
 					coupledCap[indexOfCoupled][curSec][1] = electroCap[next][curSec][0];
 				}
@@ -394,36 +369,35 @@ public class Nanotube{
 		int numCap = 0;
 		
 		for(int curNanotube = 0; curNanotube < numberOfNanotubes; curNanotube++){
-			//imperfect contact resistance
-			mccNetlist.println("R" + (numRes++) + " " + contactRes[curNanotube][0][0] + " " + contactRes[curNanotube][0][1] + " " + imperfectContactResistance);
 			for(int curShell = 0; curShell < numberOfShells; curShell++){
+				//imperfect contact resistance
+				mccNetlist.println("R" + (numRes++) + " " + contactResFront[curNanotube][curShell][0] + " " + contactResFront[curNanotube][curShell][1] + " " + shells.get(curShell).imperfectContactResistance/2);
 				//quantum contact resistance
-				mccNetlist.println("R" + (numRes++) + " " + quantumResFront[curNanotube][curShell][0] + " " + quantumResFront[curNanotube][curShell][1] + " " + contactQuantumResistance);
+				mccNetlist.println("R" + (numRes++) + " " + quantumResFront[curNanotube][curShell][0] + " " + quantumResFront[curNanotube][curShell][1] + " " + shells.get(curShell).contactQuantumResistance/2);
 				for(int curSec = 0; curSec < numberOfSections; curSec++){
 					//scattering resistance
-					mccNetlist.println("R" + (numRes++) + " " + scatteringRes[curNanotube][curShell][curSec][0] + " " + scatteringRes[curNanotube][curShell][curSec][1] + " " + scatteringResistance[curShell]);
+					mccNetlist.println("R" + (numRes++) + " " + scatteringRes[curNanotube][curShell][curSec][0] + " " + scatteringRes[curNanotube][curShell][curSec][1] + " " + shells.get(curShell).scatteringResistance*(lengthOfNanotube/numberOfSections));
 					//kinetic inductance
-					mccNetlist.println("L" + (numInd++) + " " + kineticInd[curNanotube][curShell][curSec][0] + " " + kineticInd[curNanotube][curShell][curSec][1] + " " + kineticInductance[curShell]);
+					mccNetlist.println("L" + (numInd++) + " " + kineticInd[curNanotube][curShell][curSec][0] + " " + kineticInd[curNanotube][curShell][curSec][1] + " " + shells.get(curShell).kineticInductance*(lengthOfNanotube/numberOfSections));
 					//quantum capacitance
-					mccNetlist.println("C" + (numCap++) + " " + quantumCap[curNanotube][curShell][curSec][0] + " " + quantumCap[curNanotube][curShell][curSec][1] + " " + quantumCapacitance[curShell]);
+					mccNetlist.println("C" + (numCap++) + " " + quantumCap[curNanotube][curShell][curSec][0] + " " + quantumCap[curNanotube][curShell][curSec][1] + " " + shells.get(curShell).quantumCapacitance*(lengthOfNanotube/numberOfSections));
 					
 					if(curShell != numberOfShells - 1){
 						//inner shell conductance
-						mccNetlist.println("R" + (numRes++) + " " + innerCond[curNanotube][curShell][curSec][0] + " " + innerCond[curNanotube][curShell][curSec][1] + " " + innerShellConductance[curShell]);
+						mccNetlist.println("R" + (numRes++) + " " + innerCond[curNanotube][curShell][curSec][0] + " " + innerCond[curNanotube][curShell][curSec][1] + " " + shells.get(curShell).innerShellConductance*(lengthOfNanotube/numberOfSections));
 						//inner shell capacitance
-						mccNetlist.println("C" + (numCap++) + " " + innerCap[curNanotube][curShell][curSec][0] + " " + innerCap[curNanotube][curShell][curSec][1] + " " + electrostaticCapacitance[curShell]);
+						mccNetlist.println("C" + (numCap++) + " " + innerCap[curNanotube][curShell][curSec][0] + " " + innerCap[curNanotube][curShell][curSec][1] + " " + shells.get(curShell).electrostaticCapacitance*(lengthOfNanotube/numberOfSections));
 					}
 					else if(curShell == numberOfShells - 1){
 						//electrostatic capacitance to ground
-						mccNetlist.println("C" + (numCap++) + " " + electroCap[curNanotube][curSec][0] + " " + electroCap[curNanotube][curSec][1] + " " + electrostaticCapacitance[curShell]);
+						mccNetlist.println("C" + (numCap++) + " " + electroCap[curNanotube][curSec][0] + " " + electroCap[curNanotube][curSec][1] + " " + shells.get(curShell).electrostaticCapacitance*(lengthOfNanotube/numberOfSections));
 					}
 				}
 				//quantum contact resistance
-				mccNetlist.println("R" + (numRes++) + " " + quantumResBack[curNanotube][curShell][0] + " " + quantumResBack[curNanotube][curShell][1] + " " + contactQuantumResistance);
+				mccNetlist.println("R" + (numRes++) + " " + quantumResBack[curNanotube][curShell][0] + " " + quantumResBack[curNanotube][curShell][1] + " " + shells.get(curShell).contactQuantumResistance/2);
+				//imperfect contact resistance
+				mccNetlist.println("R" + (numRes++) + " " + contactResBack[curNanotube][curShell][0] + " " + contactResBack[curNanotube][curShell][1] + " " + shells.get(curShell).imperfectContactResistance/2);
 			}
-			//imperfect contact resistance
-			mccNetlist.println("R" + (numRes++) + " " + contactRes[curNanotube][1][0] + " " + contactRes[curNanotube][1][1] + " " + imperfectContactResistance);
-			mccNetlist.println();
 		}
 		
 		//print coupled capacitances
@@ -562,7 +536,7 @@ public class Nanotube{
 		int[][][] quantumCap = new int[numberOfNanotubes][numberOfSections][2];
 		int[][][] electroCap = new int[numberOfNanotubes][numberOfSections][2];
 		
-		int currentNode = 1;
+		int currentNode = 2;
 		
 		System.out.println("**********************ESC Coupled**********************");
 		
@@ -624,9 +598,10 @@ public class Nanotube{
 			for(int next = current+1; next < numberOfNanotubes; next++){
 				for(int curSec = 0; curSec < numberOfSections; curSec++){
 					//coupled capacitance
-					coupledCapacitance[indexOfCoupled] = Math.PI * Shell.EPSILON_O * Shell.EPSILON_R * lengthOfNanotube / acosh((next - current) * distanceBetweenNanotubes / diameterOutermostShell) / numberOfSections;
-					coupledCap[indexOfCoupled][curSec][0] = kineticInd[current][curSec][1];
-					coupledCap[indexOfCoupled][curSec][1] = kineticInd[next][curSec][1];
+					//TODO
+					coupledCapacitance[indexOfCoupled] = Math.PI * Shell.EPSILON_O * (lengthOfNanotube / numberOfSections) / acosh(distanceBetweenNanotubes / diameterOutermostShell);
+					coupledCap[indexOfCoupled][curSec][0] = electroCap[current][curSec][0];
+					coupledCap[indexOfCoupled][curSec][1] = electroCap[next][curSec][0];
 				}
 				indexOfCoupled++;
 			}
@@ -655,7 +630,6 @@ public class Nanotube{
 			
 			escNetlist.println("R" + (numRes++) + " " + quantumRes[curNanotube][1][0] + " " + quantumRes[curNanotube][1][1] + " " + contactQuantumResistance/2.0);
 			escNetlist.println("R" + (numRes++) + " " + contactRes[curNanotube][1][0] + " " + contactRes[curNanotube][1][1] + " " + imperfectContactResistance/2.0);
-			escNetlist.println();
 		}
 		
 		//print coupled capacitances
@@ -664,7 +638,7 @@ public class Nanotube{
 				escNetlist.println("C" + (numCap++) + " " + coupledCap[index][curSec][0] + " " + coupledCap[index][curSec][1] + " " + coupledCapacitance[index]);
 			}
 		}
-
+		
 		escNetlist.println(".end");
 		escNetlist.close();
 	}
